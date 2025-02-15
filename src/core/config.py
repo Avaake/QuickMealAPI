@@ -7,7 +7,8 @@ import os
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-# load_dotenv(dotenv_path=BASE_DIR / ".env")
+env_file = os.getenv("ENV_FILE", ".env")
+load_dotenv(BASE_DIR / env_file)
 
 
 class APIPrefix(BaseModel):
@@ -29,6 +30,9 @@ class DBConfig(BaseModel):
     postgres_port: str
     postgres_db: str
     echo: bool = False
+    echo_pool: bool = False
+    pool_size: int = 5
+    max_overflow: int = 10
 
     @property
     def database_url(self) -> str:
@@ -52,7 +56,7 @@ class MiddlewareConfig(BaseModel):
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=os.getenv("ENV_FILE", "../.env"),
+        env_file=env_file,
         case_sensitive=False,
         env_nested_delimiter="__",
         env_prefix="APP_CONFIG__",
