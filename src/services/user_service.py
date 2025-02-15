@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from schemas.user_schema import CreateUserSchema
 from src.repositories.user_repositry import UserRepository
 from src.core import User, db_helper
 from src.exceptions import (
@@ -24,9 +25,10 @@ class UserService(AbstractService):
     ):
         self._user_repository = UserRepository(session)
 
-    async def add(self, user_data: BaseModel) -> User:
+    async def add(self, user_data: CreateUserSchema) -> User:
         if await self._user_repository.find_single(email=user_data.email):
             raise UserAlreadyExistsError("User already exists")
+        user_data.password = self.hash_password(user_data.password)
         user = await self._user_repository.create(data=user_data)
         return user
 

@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from src.core import db_helper, settings
 from fastapi import FastAPI
+from src.api import api_router
 import uvicorn
 
 
@@ -12,6 +13,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan, title="QuickMealAPI")
 
+app.include_router(api_router)
 # app.add_middleware(
 #     CORSMiddleware,
 #     allow_origins=settings.midd.cors_allowed_origins,
