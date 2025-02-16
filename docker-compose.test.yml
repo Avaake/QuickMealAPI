@@ -1,0 +1,12 @@
+services:
+  postgres_db_test:
+    image: postgres:16
+    container_name: quick_meat_db_test
+    env_file:
+      - src/.env.test
+    environment:
+      POSTGRES_USER: "${APP_CONFIG__DB__POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${APP_CONFIG__DB__POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${APP_CONFIG__DB__POSTGRES_DB}"
+    ports:
+      - "5432:5432"

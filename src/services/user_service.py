@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
-
-from schemas.user_schema import CreateUserSchema
+from src.schemas.user_schema import CreateUserSchema
 from src.repositories.user_repositry import UserRepository
 from src.core import User, db_helper
 from src.exceptions import (
