@@ -13,20 +13,16 @@ class UserAlreadyExistsError(Exception):
     pass
 
 
-class UnitOfWordError(Exception):
-    pass
-
-
 class NotFoundError(Exception):
     pass
 
 
-UNAUTHORIZED_EXC = HTTPException(
+UNAUTHORIZED_EXC_INCORRECT = HTTPException(
     status_code=status.HTTP_401_UNAUTHORIZED,
     detail="Incorrect email or password",
 )
 
-FORBIDDEN_EXC = HTTPException(
+FORBIDDEN_EXC_INACTIVE = HTTPException(
     status_code=status.HTTP_403_FORBIDDEN,
     detail="inactive user",
 )
@@ -34,4 +30,10 @@ FORBIDDEN_EXC = HTTPException(
 TOKEN_INVALID_EXC = HTTPException(
     status_code=status.HTTP_401_UNAUTHORIZED,
     detail=f"invalid token",
+)
+
+
+FORBIDDEN_EXC_NOT_ENOUGH_RIGHTS = HTTPException(
+    status_code=status.HTTP_403_FORBIDDEN,
+    detail="Not enough rights",
 )
