@@ -2,8 +2,8 @@ from src.repositories.base_repository import BaseRepository
 from typing import TypeVar, Generic, Type, Union
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete, update
-from src.core import Base
 from pydantic import BaseModel
+from src.core import Base
 
 
 ModelType = TypeVar("ModelType", bound=Base)
@@ -27,7 +27,7 @@ class SQLAlchemyRepository(BaseRepository, Generic[ModelType]):
             .where(
                 *[getattr(self.model, key) == value for key, value in filters.items()]
             )
-            .values(**data.model_dump())
+            .values(**data.model_dump(exclude_unset=True))
             .returning(self.model.id)
         )
 
