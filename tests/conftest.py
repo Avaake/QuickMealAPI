@@ -1,11 +1,8 @@
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import sessionmaker
-
-from src.core import db_helper
 from tests.utils import (
-    client_manager,
-    ClientManagerType,
+    AsyncSessionGenerator,
     async_session_maker,
+    ClientManagerType,
+    client_manager,
     engine_test,
     metadata,
 )
@@ -14,7 +11,7 @@ import pytest_asyncio
 
 
 @pytest_asyncio.fixture(scope="function")
-async def db_session():
+async def db_session() -> AsyncSessionGenerator:
     async with async_session_maker() as session:
         async with session.begin():
             yield session
