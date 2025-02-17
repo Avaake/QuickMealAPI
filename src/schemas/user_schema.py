@@ -56,3 +56,19 @@ class TokenInfo(BaseSchema):
     access_token: str
     refresh_token: str | None = None
     token_type: str = "Bearer"
+
+
+class UpdateUserSchema(UserBaseSchema):
+    first_name: Annotated[
+        Optional[str], Field(min_length=4, max_length=50, description="First name user")
+    ] = None
+    email: Optional[EmailStr] = None
+    phone_number: Annotated[
+        Optional[str], Field(min_length=5, max_length=20, description="Phone number")
+    ] = None
+    last_name: Annotated[
+        Optional[str], Field(max_length=50, description="last name user")
+    ] = None
+    is_active: Optional[bool] = None
+    is_admin: Optional[bool] = None
+    is_courier: Optional[bool] = None
