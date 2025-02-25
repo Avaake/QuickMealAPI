@@ -2,10 +2,11 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, Asyn
 from httpx import AsyncClient, ASGITransport
 from contextlib import asynccontextmanager
 from asgi_lifespan import LifespanManager
-from src.core import Base, settings
+
+from src.services.user_service import UserService
+from src.core import Base, settings, User
 from typing import AsyncGenerator
 from sqlalchemy import NullPool
-
 
 ClientManagerType = AsyncGenerator[AsyncClient, None]
 AsyncSessionGenerator = AsyncGenerator[AsyncSession, None]
@@ -25,10 +26,36 @@ async_session_maker = async_sessionmaker(
 )
 
 
+async def insert_into_tables() -> None:
+    async with async_session_maker() as session:
+        async with session.begin():
+            test_data(session=session)
+            await session.commit()
+
+
+def test_data(session: AsyncSession):
+    admin_user = User(
+        first_name="admin",
+        email="admin@gmail.com",
+        phone_number="+380999999999",
+        password=UserService.hash_password("admin_password"),
+        is_admin=True,
+    )
+    homer_user = User(
+        first_name="homer",
+        email="homer@gmail.com",
+        phone_number="+380888888888",
+        password=UserService.hash_password("homer_password"),
+    )
+    session.add_all([admin_user, homer_user])
+
+
 @asynccontextmanager
-async def client_manager(app, base_url="http://test", **kwargs) -> ClientManagerType:
+async def client_manager(
+    app, base_url="http://test" + settings.api_prefix.api_v1, **kw
+) -> ClientManagerType:
     app.state.testing = True
     async with LifespanManager(app):
         transport = ASGITransport(app=app)
-        async with AsyncClient(transport=transport, base_url=base_url, **kwargs) as c:
+        async with AsyncClient(transport=transport, base_url=base_url, **kw) as c:
             yield c

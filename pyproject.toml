@@ -21,9 +21,9 @@ greenlet = "^3.1.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^25.1.0"
-asgi-lifespan = "^2.1.0"
-pytest = "^8.3.4"
 pytest-asyncio = "^0.25.3"
+pytest = "^8.3.4"
+asgi-lifespan = "^2.1.0"
 
 [build-system]
 requires = ["poetry-core"]
