@@ -18,7 +18,7 @@ class Dish(Base):
 
     category: Mapped["Category"] = relationship(
         "Category",
-        back_populates="menu",
+        back_populates="dishes",
     )
 
     def __repr__(self) -> str:
