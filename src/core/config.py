@@ -14,6 +14,7 @@ load_dotenv(BASE_DIR / env_file)
 class APIPrefix(BaseModel):
     api_v1: str = "/api/v1"
     users: str = "/users"
+    categories: str = "/categories"
 
 
 class DBConfig(BaseModel):
