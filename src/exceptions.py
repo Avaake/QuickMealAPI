@@ -13,6 +13,10 @@ class UserAlreadyExistsError(Exception):
     pass
 
 
+class CategoryAlreadyExistsError(Exception):
+    pass
+
+
 class NotFoundError(Exception):
     pass
 

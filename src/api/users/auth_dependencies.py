@@ -1,4 +1,4 @@
-from src.api.users.decorators import handle_users_error_decorator
+from api.decorators import handle_users_error_decorator
 from src.schemas.user_schema import LoginSchema, UpdateUserSchema
 from fastapi import Depends, HTTPException, status, Form, Path
 from src.services.user_service import (

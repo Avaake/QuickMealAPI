@@ -1,6 +1,7 @@
 from fastapi import HTTPException, status
 from functools import wraps
 from src.exceptions import (
+    CategoryAlreadyExistsError,
     UserAlreadyExistsError,
     TokenIsNotValidError,
     ServiceError,
@@ -8,12 +9,13 @@ from src.exceptions import (
 )
 
 
-def handle_users_error_decorator(func):
+def handle_error_decorator(func):
     @wraps(func)
     async def wrapper(*args, **kwargs):
         try:
             return await func(*args, **kwargs)
         except (
+            CategoryAlreadyExistsError,
             TokenIsNotValidError,
             UserAlreadyExistsError,
             ServiceError,

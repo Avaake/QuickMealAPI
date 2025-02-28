@@ -1,5 +1,7 @@
+from exceptions import CategoryAlreadyExistsError, NotFoundError
+from repositories.sqlalchemy_repository import ModelType
 from src.services.base_service import AbstractService
-from typing import Annotated
+from typing import Annotated, Sequence
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends
 from src.core import db_helper, Category
@@ -11,21 +13,32 @@ class CategoryService(AbstractService):
     def __init__(
         self, session: Annotated[AsyncSession, Depends(db_helper.get_async_session)]
     ):
-        self._user_repository = CategoryRepository(session)
+        self._category_repository = CategoryRepository(session)
 
     async def add(self, category_data: CategoryBaseSchema) -> Category:
-        pass
+        if await self._category_repository.find_single(name=category_data.name):
+            raise CategoryAlreadyExistsError("Category already exists")
+
+        category = await self._category_repository.create(data=category_data)
+        return category
 
     async def update(
         self, category_id: int, category_data: UpdateCategorySchema
     ) -> Category:
-        pass
+        await self.get(id=category_id)
+        category = await self._category_repository.update(
+            id=category_id, data=category_data
+        )
+        return category
 
     async def delete(self, category_id: int) -> None:
-        pass
+        await self.get(id=category_id)
+        await self._category_repository.delete(id=category_id)
 
-    async def get(self, category_id: int) -> None:
-        pass
+    async def get(self, **kwargs) -> Category:
+        if not (category := await self._category_repository.find_single(**kwargs)):
+            raise NotFoundError("Category not found")
+        return category
 
-    async def get_all(self) -> list[Category]:
-        pass
+    async def get_all(self) -> Sequence[ModelType] | None:
+        return await self._category_repository.find_all()
