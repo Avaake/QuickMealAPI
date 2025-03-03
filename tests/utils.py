@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from asgi_lifespan import LifespanManager
 
 from src.services.user_service import UserService
-from src.core import Base, settings, User
+from src.core import Base, settings, User, Category
 from typing import AsyncGenerator
 from sqlalchemy import NullPool
 
@@ -48,6 +48,10 @@ def test_data(session: AsyncSession):
         password=UserService.hash_password("homer_password"),
     )
     session.add_all([admin_user, homer_user])
+
+    category = Category(
+        name="Burger",
+    )
 
 
 @asynccontextmanager
