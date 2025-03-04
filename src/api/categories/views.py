@@ -42,9 +42,9 @@ async def create_category(
 @handle_error_decorator
 async def get_all_categories(
     category_service: Annotated["CategoryService", Depends(CategoryService)],
-) -> Sequence[ReadCategorySchema] | None:
+) -> Sequence[ReadCategorySchema]:
     categories = await category_service.get_all()
-    return categories  # FastAPI автоматично конвертує SQLAlchemy-об'єкти у Pydantic
+    return categories
 
 
 @router.get("/{category_id}", summary="Get category")
@@ -71,7 +71,7 @@ async def update_category(
     return ReadCategorySchema(**category.to_dict())
 
 
-@router.delete("/{category_id}", summary="Delete category")
+@router.delete("/{category_id}", summary="Delete category", status_code=204)
 @handle_error_decorator
 async def delete_category(
     category_id: Annotated[int, Path(ge=1)],

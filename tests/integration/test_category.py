@@ -68,7 +68,7 @@ async def test_create_category_validate_error(async_client, admin_user_token):
         },
     )
 
-    assert response.status_code == 400
+    assert response.status_code == 422
 
 
 @pytest.mark.asyncio

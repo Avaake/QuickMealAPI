@@ -18,7 +18,7 @@ class CategoryRepository(SQLAlchemyRepository[Category]):
         )
         return res.scalar_one_or_none()
 
-    async def find_all(self) -> Union[Sequence[ModelType], None]:
+    async def find_all(self) -> Sequence[ModelType]:
         stmt = (
             select(self.model)
             .options(selectinload(self.model.dishes))

@@ -53,6 +53,8 @@ def test_data(session: AsyncSession):
         name="Burger",
     )
 
+    session.add(category)
+
 
 @asynccontextmanager
 async def client_manager(

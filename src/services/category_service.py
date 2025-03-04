@@ -1,5 +1,5 @@
-from exceptions import CategoryAlreadyExistsError, NotFoundError
-from repositories.sqlalchemy_repository import ModelType
+from src.exceptions import CategoryAlreadyExistsError, NotFoundError
+from src.repositories.sqlalchemy_repository import ModelType
 from src.services.base_service import AbstractService
 from typing import Annotated, Sequence
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -40,5 +40,5 @@ class CategoryService(AbstractService):
             raise NotFoundError("Category not found")
         return category
 
-    async def get_all(self) -> Sequence[ModelType] | None:
+    async def get_all(self) -> Sequence[ModelType]:
         return await self._category_repository.find_all()
