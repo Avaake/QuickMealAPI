@@ -17,6 +17,10 @@ class CategoryAlreadyExistsError(Exception):
     pass
 
 
+class DishAlreadyExistsError(Exception):
+    pass
+
+
 class NotFoundError(Exception):
     pass
 
