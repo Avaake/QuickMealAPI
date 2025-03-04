@@ -15,6 +15,7 @@ class APIPrefix(BaseModel):
     api_v1: str = "/api/v1"
     users: str = "/users"
     categories: str = "/categories"
+    dishes: str = "/dishes"
 
 
 class DBConfig(BaseModel):
