@@ -30,6 +30,6 @@ class UpdateDishSchema(DishBaseSchema):
 class QueryDishSchema(BaseSchema):
     category_id: Annotated[
         Optional[int],
-        Field(gt=1, description="id of which category the dishes belongs to"),
+        Field(ge=1, description="id of which category the dishes belongs to"),
     ] = None
     order_by: Annotated[Optional[bool], Field()] = False

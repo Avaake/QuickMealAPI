@@ -32,12 +32,16 @@ class DishService(AbstractService):
 
     async def get(self, **kwargs) -> Dish:
         if not (dish := await self._dish_repository.find_single(**kwargs)):
-            raise NotFoundError("User not found")
+            raise NotFoundError("Dish not found")
         return dish
 
     async def get_all(
-        self, category_id: Optional[int] = None, order_by: bool = False
+        self, category_id: int | None, order_by: bool = False
     ) -> Sequence[ModelType]:
+        if category_id is None:
+            return await self._dish_repository.find_all(
+                order_by=order_by,
+            )
         return await self._dish_repository.find_all(
             order_by=order_by, category_id=category_id
         )

@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends, Query
-from src.core import settings, User
-from src.api.decorators import handle_error_decorator
 from src.api.users.auth_dependencies import check_user_is_admin
-from typing import Sequence, Annotated, Any, Coroutine
+from src.api.decorators import handle_error_decorator
 from src.services.dish_service import DishService
+from fastapi import APIRouter, Depends, Query
+from typing import Sequence, Annotated
+from src.core import settings, User
 from src.schemas.dish_schema import (
     DishBaseSchema,
     ReadDishSchema,
@@ -25,6 +25,16 @@ async def create_dish(
     return ReadDishSchema(**dish.to_dict())
 
 
+@router.get("", status_code=200, summary="get all dishes")
+@handle_error_decorator
+async def get_all_dishes(
+    q: Annotated[QueryDishSchema, Query()],
+    dish_service: Annotated["DishService", Depends(DishService)],
+) -> Sequence[ReadDishSchema] | ReadDishSchema:
+    dishes = await dish_service.get_all(category_id=q.category_id, order_by=q.order_by)
+    return dishes
+
+
 @router.get("/{dish_id}", status_code=200, summary="get dish")
 @handle_error_decorator
 async def get_dish(
@@ -35,17 +45,7 @@ async def get_dish(
     return ReadDishSchema(**dish.to_dict())
 
 
-@router.get("", status_code=200, summary="get all dishes")
-@handle_error_decorator
-async def get_all_dishes(
-    q: Annotated[QueryDishSchema, Query()],
-    dish_service: Annotated["DishService", Depends(DishService)],
-) -> Sequence[ReadDishSchema]:
-    dishes = await dish_service.get_all(category_id=q.category_id, order_by=q.order_by)
-    return dishes
-
-
-@router.patch("/{dish_id}", status_code=204, summary="update dish")
+@router.patch("/{dish_id}", status_code=200, summary="update dish")
 @handle_error_decorator
 async def update_dish(
     dish_id: int,

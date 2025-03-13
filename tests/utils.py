@@ -2,9 +2,8 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, Asyn
 from httpx import AsyncClient, ASGITransport
 from contextlib import asynccontextmanager
 from asgi_lifespan import LifespanManager
-
 from src.services.user_service import UserService
-from src.core import Base, settings, User, Category
+from src.core import Base, settings, User, Category, Dish
 from typing import AsyncGenerator
 from sqlalchemy import NullPool
 
@@ -49,11 +48,20 @@ def test_data(session: AsyncSession):
     )
     session.add_all([admin_user, homer_user])
 
-    category = Category(
+    category_1 = Category(
         name="Burger",
     )
 
-    session.add(category)
+    category_2 = Category(
+        name="Pizza",
+    )
+
+    session.add_all([category_1, category_2])
+
+    dish_1 = Dish(name="fish_burger", price=122, category=category_1)
+    dish_2 = Dish(name="margarita", price=299, category=category_2)
+
+    session.add_all([dish_1, dish_2])
 
 
 @asynccontextmanager

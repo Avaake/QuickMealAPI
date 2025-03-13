@@ -7,7 +7,7 @@ import os
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-env_file = os.getenv("ENV_FILE", ".env")
+env_file = os.getenv("ENV_FILE", ".env.test")
 load_dotenv(BASE_DIR / env_file)
 
 
