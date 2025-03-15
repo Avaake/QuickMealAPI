@@ -1,6 +1,10 @@
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import VARCHAR
 from src.core import Base
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from src.core import CartItem
 
 
 class User(Base):
@@ -13,6 +17,10 @@ class User(Base):
     is_user: Mapped[bool] = mapped_column(default=True)
     is_admin: Mapped[bool] = mapped_column(default=False)
     is_courier: Mapped[bool] = mapped_column(default=False)
+
+    cart_items: Mapped[list["CartItem"]] = relationship(
+        "CartItem", back_populates="user"
+    )
 
     def __repr__(self) -> str:
         return (
