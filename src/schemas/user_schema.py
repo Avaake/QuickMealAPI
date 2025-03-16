@@ -1,8 +1,7 @@
 from src.schemas.base_schema import BaseSchema
-from typing import Annotated, Optional, Self
+from typing import Annotated, Optional
 from pydantic import (
     Field,
-    model_validator,
     EmailStr,
     field_validator,
 )
@@ -31,11 +30,6 @@ class CreateUserSchema(UserBaseSchema):
         Optional[str], Field(max_length=50, description="last name user")
     ] = None
     password: Annotated[str, Field(min_length=4, description="Password user")]
-
-    # @model_validator(mode="after")
-    # def validate_password(self) -> Self:
-    #     self.password = user_service.hash_password(self.password)
-    #     return self
 
 
 class ReadUserSchema(UserBaseSchema):
