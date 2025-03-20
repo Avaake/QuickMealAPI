@@ -77,18 +77,18 @@ get_current_auth_user_for_refresh = get_auth_user_from_token_of_type(REFRESH_TOK
 
 def check_user_is_active(
     user: Annotated[User, Depends(get_current_auth_user)],
-):
-    if user.is_active:
-        return user
-    raise FORBIDDEN_EXC_INACTIVE
+) -> User:
+    if not user.is_active:
+        raise FORBIDDEN_EXC_INACTIVE
+    return user
 
 
 async def check_user_is_admin(
     user: Annotated[User, Depends(get_current_auth_user)],
-):
-    if user.is_admin:
-        return user
-    raise FORBIDDEN_EXC_NOT_ENOUGH_RIGHTS
+) -> User:
+    if not user.is_admin:
+        raise FORBIDDEN_EXC_NOT_ENOUGH_RIGHTS
+    return user
 
 
 @handle_error_decorator

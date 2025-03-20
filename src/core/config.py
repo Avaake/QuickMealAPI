@@ -16,6 +16,7 @@ class APIPrefix(BaseModel):
     users: str = "/users"
     categories: str = "/categories"
     dishes: str = "/dishes"
+    carts: str = "/carts"
 
 
 class DBConfig(BaseModel):
