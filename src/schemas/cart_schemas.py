@@ -6,7 +6,6 @@ from pydantic import (
 
 
 class BaseCartSchema(BaseSchema):
-    user_id: Annotated[int, Field(ge=0, description="id of user")]
     dish_id: Annotated[int, Field(ge=0, description="id of dish")]
     quantity: Annotated[int, Field(ge=0, description="quantity of item")]
 
@@ -16,8 +15,15 @@ class ReadCartSchema(BaseCartSchema):
 
 
 class UpdateCartSchema(BaseCartSchema):
-    user_id: Annotated[Optional[int], Field(ge=0, description="id of user")] = None
     dish_id: Annotated[Optional[int], Field(ge=0, description="id of dish")] = None
     quantity: Annotated[Optional[int], Field(ge=0, description="quantity of item")] = (
         None
     )
+
+
+class CreateCartSchema(BaseCartSchema):
+    user_id: int
+
+
+class ReadCartDishSchema(BaseCartSchema):
+    name: str
