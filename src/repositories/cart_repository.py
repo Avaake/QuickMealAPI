@@ -1,18 +1,18 @@
-from typing import Sequence
-from sqlalchemy import select, func
-from sqlalchemy.orm import selectinload
-from core import CartItem, Dish
+from src.repositories.sqlalchemy_repository import SQLAlchemyRepository
 from src.schemas.cart_schemas import CreateCartSchema
-from src.repositories.sqlalchemy_repository import SQLAlchemyRepository, ModelType
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
+from sqlalchemy import select, func
 from src.core import CartItem
+from typing import Sequence
+from core import Dish
 
 
 class CartRepository(SQLAlchemyRepository[CartItem]):
     def __init__(self, session: AsyncSession):
         super().__init__(CartItem, session)
 
-    async def add_item(self, user_id: int, dish_id: int, quantity: int):
+    async def add_item(self, user_id: int, dish_id: int, quantity: int) -> None:
         existing_item = await self.find_single(user_id=user_id, dish_id=dish_id)
 
         if existing_item:
