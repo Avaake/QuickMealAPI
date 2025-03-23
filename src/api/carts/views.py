@@ -1,3 +1,4 @@
+from src.services.dish_service import DishService
 from src.api.users.auth_dependencies import check_user_is_active
 from src.api.decorators import handle_error_decorator
 from src.services.cart_service import CartService
@@ -10,23 +11,26 @@ from src.schemas.cart_schemas import (
 from src.core import settings, User
 
 
-router = APIRouter(prefix=settings.api_prefix.carts, tags=["Cart | Basket"])
+router = APIRouter(prefix=settings.api_prefix.carts, tags=["Cart / Basket"])
 
 
-@router.post("/add", status_code=201)
+@router.post("/add", status_code=200)
 @handle_error_decorator
 async def add_to_cart(
     cart_data: BaseCartSchema,
     current_user: Annotated[User, Depends(check_user_is_active)],
     cart_service: Annotated["CartService", Depends(CartService)],
+    dish_service: Annotated["DishService", Depends(DishService)],
 ) -> dict[str, str]:
-    await cart_service.add(user_id=current_user.id, cart_data=cart_data)
+    await cart_service.add(
+        user_id=current_user.id, cart_data=cart_data, dish_service=dish_service
+    )
     return {"message": "Dish added to cart."}
 
 
 @router.get("/total-price", status_code=200)
 @handle_error_decorator
-async def get_total(
+async def get_total_price(
     current_user: Annotated[User, Depends(check_user_is_active)],
     cart_service: Annotated["CartService", Depends(CartService)],
 ) -> dict[str, int]:
@@ -55,7 +59,7 @@ async def remove_from_cart(
     return {"message": "Dish removed from cart."}
 
 
-@router.delete("", status_code=204)
+@router.delete("/clear", status_code=204)
 @handle_error_decorator
 async def clear_cart(
     current_user: Annotated[User, Depends(check_user_is_active)],

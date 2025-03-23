@@ -3,7 +3,7 @@ from httpx import AsyncClient, ASGITransport
 from contextlib import asynccontextmanager
 from asgi_lifespan import LifespanManager
 from src.services.user_service import UserService
-from src.core import Base, settings, User, Category, Dish
+from src.core import Base, settings, User, Category, Dish, CartItem
 from typing import AsyncGenerator
 from sqlalchemy import NullPool
 
@@ -62,6 +62,11 @@ def test_data(session: AsyncSession):
     dish_2 = Dish(name="margarita", price=299, category=category_2)
 
     session.add_all([dish_1, dish_2])
+
+    cart_item_1 = CartItem(user_id=homer_user.id, dish_id=dish_1.id, quantity=2)
+    cart_item_2 = CartItem(user_id=homer_user.id, dish_id=dish_2.id, quantity=8)
+
+    session.add_all([cart_item_1, cart_item_2])
 
 
 @asynccontextmanager

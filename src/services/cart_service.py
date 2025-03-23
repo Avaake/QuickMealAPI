@@ -1,3 +1,4 @@
+from src.services.dish_service import DishService
 from src.repositories.cart_repository import CartRepository
 from src.services.base_service import AbstractService
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -16,7 +17,11 @@ class CartService(AbstractService):
     ):
         self._cart_repository = CartRepository(session)
 
-    async def add(self, user_id: int, cart_data: BaseCartSchema):
+    async def add(
+        self, user_id: int, cart_data: BaseCartSchema, dish_service: "DishService"
+    ):
+        await dish_service.get(id=cart_data.dish_id)
+
         return await self._cart_repository.add_item(
             user_id, cart_data.dish_id, cart_data.quantity
         )
