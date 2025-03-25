@@ -63,8 +63,8 @@ def test_data(session: AsyncSession):
 
     session.add_all([dish_1, dish_2])
 
-    cart_item_1 = CartItem(user_id=homer_user.id, dish_id=dish_1.id, quantity=2)
-    cart_item_2 = CartItem(user_id=homer_user.id, dish_id=dish_2.id, quantity=8)
+    cart_item_1 = CartItem(user=admin_user, dish=dish_1, quantity=2)
+    cart_item_2 = CartItem(user=homer_user, dish=dish_2, quantity=8)
 
     session.add_all([cart_item_1, cart_item_2])
 

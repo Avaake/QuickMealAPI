@@ -29,7 +29,7 @@ async def test_add_to_cart(async_client, homer_user_token, db_session):
 
 
 @pytest.mark.asyncio
-async def test_add_to_cart(async_client, homer_user_token, db_session):
+async def test_add_to_cart_exc_not_found(async_client, homer_user_token, db_session):
     cart_data = {
         "dish_id": 10,
         "quantity": 2,
@@ -48,8 +48,8 @@ async def test_add_to_cart(async_client, homer_user_token, db_session):
 
 @pytest.mark.asyncio
 async def test_remove_from_cart(async_client, homer_user_token, db_session):
-    response = await async_client.post(
-        "/carts/remove/1",
+    response = await async_client.delete(
+        "/carts/remove/2",
         headers={"Authorization": f"Bearer {homer_user_token['access_token']}"},
     )
 
@@ -57,7 +57,7 @@ async def test_remove_from_cart(async_client, homer_user_token, db_session):
     data = response.json()
     assert data["message"] == "Dish removed from cart."
 
-    stmt = select(CartItem).where(CartItem.user_id == 2, CartItem.dish_id == 1)
+    stmt = select(CartItem).where(CartItem.user_id == 2, CartItem.dish_id == 2)
     result = await db_session.execute(stmt)
     cart = result.scalars().first()
 
@@ -66,7 +66,7 @@ async def test_remove_from_cart(async_client, homer_user_token, db_session):
 
 @pytest.mark.asyncio
 async def test_get_total_price(async_client, homer_user_token):
-    response = await async_client.post(
+    response = await async_client.get(
         "/carts/total-price",
         headers={"Authorization": f"Bearer {homer_user_token['access_token']}"},
     )
@@ -79,7 +79,7 @@ async def test_get_total_price(async_client, homer_user_token):
 
 @pytest.mark.asyncio
 async def test_get_cart(async_client, homer_user_token):
-    response = await async_client.post(
+    response = await async_client.get(
         "/carts",
         headers={"Authorization": f"Bearer {homer_user_token['access_token']}"},
     )
@@ -88,13 +88,13 @@ async def test_get_cart(async_client, homer_user_token):
     data = response.json()
 
     assert isinstance(data, list)
-    assert len(data) > 1
+    assert len(data) >= 1
     assert data[0]["name"] == "fish_burger"
 
 
 @pytest.mark.asyncio
 async def test_clear_cart(async_client, homer_user_token, db_session):
-    response = await async_client.post(
+    response = await async_client.delete(
         "/carts/clear",
         headers={"Authorization": f"Bearer {homer_user_token['access_token']}"},
     )

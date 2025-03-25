@@ -5,7 +5,7 @@ from sqlalchemy.orm import selectinload
 from sqlalchemy import select, func
 from src.core import CartItem
 from typing import Sequence
-from core import Dish
+from src.core import Dish
 
 
 class CartRepository(SQLAlchemyRepository[CartItem]):
