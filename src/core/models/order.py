@@ -5,7 +5,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from src.core import Payment, User
+    from src.core import Payment, User, OrderItem
 
 
 class Order(Base):
@@ -26,6 +26,7 @@ class Order(Base):
         "Payment", back_populates="order", uselist=False
     )
     user: Mapped["User"] = relationship("User", back_populates="orders")
+    items: Mapped[list["OrderItem"]] = relationship("OrderItem", back_populates="order")
 
     def __repr__(self) -> str:
         return (

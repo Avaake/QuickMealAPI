@@ -8,6 +8,7 @@ __all__ = [
     "CartItem",
     "Payment",
     "Order",
+    "OrderItem",
 ]
 
 from .config import settings
@@ -19,3 +20,4 @@ from src.core.models.dish import Dish
 from src.core.models.cart import CartItem
 from src.core.models.payment import Payment
 from src.core.models.order import Order
+from src.core.models.order_items import OrderItem
