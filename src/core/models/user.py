@@ -4,7 +4,7 @@ from src.core import Base
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from src.core import CartItem
+    from src.core import CartItem, Order
 
 
 class User(Base):
@@ -21,6 +21,7 @@ class User(Base):
     cart_items: Mapped[list["CartItem"]] = relationship(
         "CartItem", back_populates="user"
     )
+    orders: Mapped[list["Order"]] = relationship("Order", back_populates="user")
 
     def __repr__(self) -> str:
         return (
