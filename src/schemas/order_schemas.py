@@ -1,14 +1,16 @@
-from enum import Enum
+from schemas.enums import PaymentMethod
+from src.schemas.base_schema import BaseSchema
+
+from src.core import Payment, OrderItem
 
 
-class OrderStatus(str, Enum):
-    pending = "pending"
-    preparing = "preparing"
-    on_the_road = "on_the_road"
-    delivered = "delivered"
+class CreateOrderSchema(BaseSchema):
+    payment_method: PaymentMethod
 
 
-class PaymentMethod(str, Enum):
-    online = "online"
-    terminal = "terminal"
-    cash = "cash"
+class AddCreatedOrderSchema(BaseSchema):
+    user_id: int
+    payment: "Payment"
+    items: list["OrderItem"]
+
+    model_config = {"arbitrary_types_allowed": True}
