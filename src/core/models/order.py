@@ -1,4 +1,4 @@
-from src.schemas.order_schemas import OrderStatus
+from src.schemas.enums import OrderStatus
 from src.core import Base
 from sqlalchemy import ForeignKey, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship

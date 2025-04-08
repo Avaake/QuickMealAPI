@@ -18,4 +18,7 @@ class CartItem(Base):
     dish: Mapped["Dish"] = relationship("Dish", back_populates="items")
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(id={self.id}, user_id={self.user_id}, dish_id={self.dish_id}, quantity={self.quantity})"
+        return (
+            f"{self.__class__.__name__}(id={self.id}, user_id={self.user_id}, "
+            f"dish_id={self.dish_id}, quantity={self.quantity})"
+        )

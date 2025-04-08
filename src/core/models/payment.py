@@ -1,8 +1,8 @@
-from src.core import Base
 from sqlalchemy.orm import relationship, Mapped, mapped_column
-from src.schemas.order_schemas import PaymentMethod
-from sqlalchemy import ForeignKey, Enum
+from src.schemas.enums import PaymentMethod
 from typing import TYPE_CHECKING
+from sqlalchemy import Enum
+from src.core import Base
 
 if TYPE_CHECKING:
     from src.core import Order
