@@ -8,10 +8,12 @@ from tests.utils import (
     engine_test,
     metadata,
 )
+from src.core import settings
 
 
 @pytest_asyncio.fixture(scope="module", autouse=True)
 async def engine():
+    assert settings.mode == "TEST"
     async with engine_test.begin() as conn:
         await conn.run_sync(metadata.create_all)
 

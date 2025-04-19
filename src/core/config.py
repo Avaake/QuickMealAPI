@@ -1,14 +1,10 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import BaseModel
-from dotenv import load_dotenv
 from typing import ClassVar
 from pathlib import Path
-import os
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-env_file = os.getenv("ENV_FILE", ".env")
-load_dotenv(BASE_DIR / env_file)
 
 
 class APIPrefix(BaseModel):
@@ -60,7 +56,7 @@ class MiddlewareConfig(BaseModel):
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=env_file,
+        env_file=".env",
         case_sensitive=False,
         env_nested_delimiter="__",
         env_prefix="APP_CONFIG__",
@@ -69,6 +65,7 @@ class Settings(BaseSettings):
     auth_jwt: AuthJWTConfig
     midd: MiddlewareConfig
     api_prefix: APIPrefix = APIPrefix()
+    mode: str
 
 
 settings = Settings()
