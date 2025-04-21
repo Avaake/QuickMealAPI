@@ -81,3 +81,19 @@ def new_dish_data():
     return {
         "description": "new cheeseburger",
     }
+
+
+# category fixture
+@pytest.fixture()
+def category_data():
+    return {
+        "name": "Test Category",
+        "description": "Test description",
+    }
+
+
+@pytest.fixture()
+def new_category_data():
+    return {
+        "name": "New Test Category",
+    }
