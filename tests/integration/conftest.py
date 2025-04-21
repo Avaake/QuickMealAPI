@@ -64,3 +64,20 @@ def authorization_admin(admin_user_token):
 @pytest.fixture()
 def authorization_homer(homer_user_token):
     return {"Authorization": f"Bearer {homer_user_token['access_token']}"}
+
+
+# dish fixture
+@pytest.fixture()
+def dish_data():
+    return {
+        "name": "cheeseburger",
+        "price": 100,
+        "category_id": 1,
+    }
+
+
+@pytest.fixture()
+def new_dish_data():
+    return {
+        "description": "new cheeseburger",
+    }
