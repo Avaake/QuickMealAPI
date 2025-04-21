@@ -128,3 +128,12 @@ async def user_is_admin_or_user_himself(
         )
 
     return user
+
+
+async def check_user_is_courier_or_is_admin(
+    user: Annotated[User, Depends(get_current_auth_user)],
+) -> User:
+    if not user.is_courier and not user.is_admin:
+        raise FORBIDDEN_EXC_NOT_ENOUGH_RIGHTS
+
+    return user
