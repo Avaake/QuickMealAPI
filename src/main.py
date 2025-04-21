@@ -1,5 +1,5 @@
 from contextlib import asynccontextmanager
-from src.core import db_helper, settings
+from src.core import db_helper
 from fastapi import FastAPI
 from src.api import api_router
 import uvicorn

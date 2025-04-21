@@ -1,4 +1,4 @@
-from schemas.enums import PaymentMethod
+from schemas.enums import PaymentMethod, OrderStatus
 from src.schemas.base_schema import BaseSchema
 
 from src.core import Payment, OrderItem
@@ -14,3 +14,13 @@ class AddCreatedOrderSchema(BaseSchema):
     items: list["OrderItem"]
 
     model_config = {"arbitrary_types_allowed": True}
+
+
+class UpdateOrderSchema(BaseSchema):
+    status: OrderStatus
+
+
+class ReadOrderSchema(BaseSchema):
+    user_id: int
+    status: "OrderStatus"
+    payment_id: int
