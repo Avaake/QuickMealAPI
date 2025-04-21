@@ -36,27 +36,3 @@ async def db_session():
 async def async_client() -> ClientManagerType:
     async with client_manager(app) as c:
         yield c
-
-
-@pytest_asyncio.fixture(scope="function")
-async def admin_user_token(async_client) -> dict:
-    user_data_login = {
-        "email": "admin@gmail.com",
-        "password": "admin_password",
-    }
-    response = await async_client.post("/users/login", data=user_data_login)
-
-    data = response.json()
-    return data
-
-
-@pytest_asyncio.fixture(scope="function")
-async def homer_user_token(async_client) -> dict:
-    user_data_login = {
-        "email": "homer@gmail.com",
-        "password": "homer_password",
-    }
-    response = await async_client.post("/users/login", data=user_data_login)
-
-    data = response.json()
-    return data

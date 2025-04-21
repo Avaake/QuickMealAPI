@@ -8,10 +8,10 @@ down:
 	${DC} --env-file ${ENV_FILE} down
 
 test_up:
-	${DC} -f docker-compose.test.yml --env-file src/.env.test up -d
+	${DC} -f docker-compose.test.yml --env-file src/.test.env up -d
 
 test_down:
-	${DC} -f docker-compose.test.yml --env-file src/.env.test down
+	${DC} -f docker-compose.test.yml --env-file src/.test.env down
 
 test_go:
 	python3 -m pytest tests/ -s -v
