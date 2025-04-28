@@ -1,10 +1,10 @@
-from src.api.users.auth_dependencies import check_user_is_admin
-from src.api.decorators import handle_error_decorator
-from src.services.dish_service import DishService
+from api.users.auth_dependencies import check_user_is_admin
+from api.decorators import handle_error_decorator
+from services.dish_service import DishService
 from fastapi import APIRouter, Depends, Query
 from typing import Sequence, Annotated
-from src.core import settings, User
-from src.schemas.dish_schema import (
+from core import settings, User
+from schemas.dish_schema import (
     DishBaseSchema,
     ReadDishSchema,
     UpdateDishSchema,

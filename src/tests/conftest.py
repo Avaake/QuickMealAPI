@@ -1,4 +1,4 @@
-from src.main import app
+from main import app
 import pytest_asyncio
 from tests.utils import (
     async_session_maker,
@@ -8,7 +8,7 @@ from tests.utils import (
     engine_test,
     metadata,
 )
-from src.core import settings
+from core import settings
 
 
 @pytest_asyncio.fixture(scope="module", autouse=True)

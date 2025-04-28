@@ -1,6 +1,6 @@
 import pytest
 from sqlalchemy import select
-from src.core import Dish
+from core import Dish
 
 
 @pytest.mark.asyncio

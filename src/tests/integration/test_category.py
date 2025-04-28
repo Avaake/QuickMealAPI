@@ -1,6 +1,6 @@
 import pytest
 from sqlalchemy import select
-from src.core import Category
+from core import Category
 
 
 @pytest.mark.asyncio

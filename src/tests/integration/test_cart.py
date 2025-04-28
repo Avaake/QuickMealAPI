@@ -1,6 +1,6 @@
 import pytest
 from sqlalchemy import select
-from src.core import CartItem
+from core import CartItem
 
 
 @pytest.mark.asyncio

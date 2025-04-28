@@ -2,8 +2,8 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, Asyn
 from httpx import AsyncClient, ASGITransport
 from contextlib import asynccontextmanager
 from asgi_lifespan import LifespanManager
-from src.services.user_service import UserService
-from src.core import Base, settings, User, Category, Dish, CartItem
+from services.user_service import UserService
+from core import Base, settings, User, Category, Dish, CartItem
 from typing import AsyncGenerator
 from sqlalchemy import NullPool
 
