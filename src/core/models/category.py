@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import VARCHAR, TEXT
-from src.core import Base
+from core import Base
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from src.core import Dish
+    from core import Dish
 
 
 class Category(Base):

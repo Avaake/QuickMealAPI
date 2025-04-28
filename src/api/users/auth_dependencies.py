@@ -1,12 +1,12 @@
-from src.api.decorators import handle_error_decorator
-from src.schemas.user_schema import LoginSchema, UpdateUserSchema
+from api.decorators import handle_error_decorator
+from schemas.user_schema import LoginSchema, UpdateUserSchema
 from fastapi import Depends, HTTPException, status, Form, Path
-from src.services.user_service import (
+from services.user_service import (
     UserService,
     ACCESS_TOKEN_TYPE,
     REFRESH_TOKEN_TYPE,
 )
-from src.exceptions import (
+from exceptions import (
     FORBIDDEN_EXC_NOT_ENOUGH_RIGHTS,
     UNAUTHORIZED_EXC_INCORRECT,
     FORBIDDEN_EXC_INACTIVE,
@@ -18,7 +18,7 @@ from fastapi.security import (
 )
 from typing import Annotated
 from jose import JWTError
-from src.core import User
+from core import User
 
 
 http_bearer = HTTPBearer(auto_error=False)

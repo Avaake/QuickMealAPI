@@ -1,6 +1,6 @@
-from src.repositories.sqlalchemy_repository import SQLAlchemyRepository
+from repositories.sqlalchemy_repository import SQLAlchemyRepository
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.core import User
+from core import User
 from sqlalchemy import select
 from typing import Union
 

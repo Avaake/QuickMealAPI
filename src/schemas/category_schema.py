@@ -1,4 +1,4 @@
-from src.schemas.base_schema import BaseSchema
+from schemas.base_schema import BaseSchema
 from typing import Annotated, Optional
 from pydantic import Field
 

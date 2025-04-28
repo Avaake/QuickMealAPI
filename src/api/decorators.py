@@ -1,6 +1,6 @@
 from fastapi import HTTPException, status
 from functools import wraps
-from src.exceptions import (
+from exceptions import (
     CategoryAlreadyExistsError,
     UserAlreadyExistsError,
     TokenIsNotValidError,

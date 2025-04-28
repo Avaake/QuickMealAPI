@@ -1,9 +1,9 @@
-from src.repositories.base_repository import BaseRepository
+from repositories.base_repository import BaseRepository
 from typing import TypeVar, Generic, Type, Union
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete, update
 from pydantic import BaseModel
-from src.core import Base
+from core import Base
 
 
 ModelType = TypeVar("ModelType", bound=Base)

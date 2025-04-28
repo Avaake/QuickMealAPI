@@ -1,9 +1,9 @@
-from src.repositories.sqlalchemy_repository import SQLAlchemyRepository, ModelType
+from repositories.sqlalchemy_repository import SQLAlchemyRepository, ModelType
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, desc, asc
 from sqlalchemy.orm import selectinload
 from typing import Union, Sequence
-from src.core import Dish
+from core import Dish
 
 
 class DishRepository(SQLAlchemyRepository[Dish]):

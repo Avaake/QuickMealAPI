@@ -1,11 +1,11 @@
-from src.schemas.user_schema import CreateUserSchema, UpdateUserSchema
-from src.repositories.user_repositry import UserRepository
-from src.services.base_service import AbstractService
+from schemas.user_schema import CreateUserSchema, UpdateUserSchema
+from repositories.user_repositry import UserRepository
+from services.base_service import AbstractService
 from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import datetime, timedelta
-from src.core import User, db_helper
-from src.core import settings
-from src.exceptions import (
+from core import User, db_helper
+from core import settings
+from exceptions import (
     UserAlreadyExistsError,
     NotFoundError,
 )

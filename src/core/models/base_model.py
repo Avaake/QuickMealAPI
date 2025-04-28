@@ -2,7 +2,7 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, declared_attr
 from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy import Integer, TIMESTAMP, func, MetaData
 from datetime import datetime
-from src.core.config import settings
+from core.config import settings
 
 
 class Base(AsyncAttrs, DeclarativeBase):

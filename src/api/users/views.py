@@ -1,7 +1,7 @@
-from src.api.decorators import handle_error_decorator
-from src.services.user_service import UserService
+from api.decorators import handle_error_decorator
+from services.user_service import UserService
 from fastapi import APIRouter, Depends, Path
-from src.api.users.auth_dependencies import (
+from api.users.auth_dependencies import (
     get_current_auth_user_for_refresh,
     user_is_admin_or_user_himself,
     get_current_auth_user,
@@ -9,13 +9,13 @@ from src.api.users.auth_dependencies import (
     authenticate_user,
     http_bearer,
 )
-from src.schemas.user_schema import (
+from schemas.user_schema import (
     CreateUserSchema,
     TokenInfo,
     ReadUserSchema,
     UpdateUserSchema,
 )
-from src.core import User, settings
+from core import User, settings
 from typing import Annotated
 
 router = APIRouter(

@@ -1,10 +1,10 @@
-from src.core import Base
+from core import Base
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from src.core import Dish, Order
+    from core import Dish, Order
 
 
 class OrderItem(Base):

@@ -1,12 +1,12 @@
-from src.exceptions import CategoryAlreadyExistsError, NotFoundError
-from src.repositories.sqlalchemy_repository import ModelType
-from src.services.base_service import AbstractService
+from exceptions import CategoryAlreadyExistsError, NotFoundError
+from repositories.sqlalchemy_repository import ModelType
+from services.base_service import AbstractService
 from typing import Annotated, Sequence
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends
-from src.core import db_helper, Category
-from src.repositories.category_repository import CategoryRepository
-from src.schemas.category_schema import CategoryBaseSchema, UpdateCategorySchema
+from core import db_helper, Category
+from repositories.category_repository import CategoryRepository
+from schemas.category_schema import CategoryBaseSchema, UpdateCategorySchema
 
 
 class CategoryService(AbstractService):

@@ -12,8 +12,8 @@ from os.path import dirname, abspath
 
 sys.path.insert(0, dirname(dirname(abspath(__file__))))
 
-from src.core.config import settings
-from src.core.models.base_model import Base
+from core.config import settings
+from core.models.base_model import Base
 
 config = context.config
 config.set_main_option("sqlalchemy.url", str(settings.db.database_url))

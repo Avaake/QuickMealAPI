@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import (
     AsyncEngine,
     AsyncSession,
 )
-from src.core.config import settings
+from core.config import settings
 from typing import AsyncGenerator
 
 

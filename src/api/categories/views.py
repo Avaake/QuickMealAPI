@@ -1,14 +1,14 @@
-from src.api.decorators import handle_error_decorator
-from src.api.users.auth_dependencies import check_user_is_admin
-from src.services.category_service import CategoryService
+from api.decorators import handle_error_decorator
+from api.users.auth_dependencies import check_user_is_admin
+from services.category_service import CategoryService
 from fastapi import APIRouter, Depends, Path
-from src.schemas.category_schema import (
+from schemas.category_schema import (
     CategoryBaseSchema,
     UpdateCategorySchema,
     ReadCategorySchema,
 )
 from typing import Annotated, Sequence
-from src.core import settings, User
+from core import settings, User
 
 
 router = APIRouter(

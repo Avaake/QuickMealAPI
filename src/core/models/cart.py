@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Integer, ForeignKey
-from src.core import Base
+from core import Base
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from src.core import Dish, User
+    from core import Dish, User
 
 
 class CartItem(Base):

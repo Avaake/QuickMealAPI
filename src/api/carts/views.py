@@ -1,14 +1,14 @@
-from src.services.dish_service import DishService
-from src.api.users.auth_dependencies import check_user_is_active
-from src.api.decorators import handle_error_decorator
-from src.services.cart_service import CartService
+from services.dish_service import DishService
+from api.users.auth_dependencies import check_user_is_active
+from api.decorators import handle_error_decorator
+from services.cart_service import CartService
 from fastapi import APIRouter, Depends, Path
 from typing import Sequence, Annotated
-from src.schemas.cart_schemas import (
+from schemas.cart_schemas import (
     BaseCartSchema,
     ReadCartDishSchema,
 )
-from src.core import settings, User
+from core import settings, User
 
 
 router = APIRouter(prefix=settings.api_prefix.carts, tags=["Cart / Basket"])

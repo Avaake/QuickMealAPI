@@ -1,13 +1,13 @@
-from src.repositories.sqlalchemy_repository import ModelType
-from src.exceptions import DishAlreadyExistsError, NotFoundError
-from src.repositories.dish_repository import DishRepository
-from src.services.base_service import AbstractService
+from repositories.sqlalchemy_repository import ModelType
+from exceptions import DishAlreadyExistsError, NotFoundError
+from repositories.dish_repository import DishRepository
+from services.base_service import AbstractService
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Sequence, Optional
-from src.core import db_helper, Dish
+from core import db_helper, Dish
 from typing import Annotated
 from fastapi import Depends
-from src.schemas.dish_schema import DishBaseSchema, UpdateDishSchema
+from schemas.dish_schema import DishBaseSchema, UpdateDishSchema
 
 
 class DishService(AbstractService):

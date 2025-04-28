@@ -1,11 +1,11 @@
 from sqlalchemy.orm import relationship, Mapped, mapped_column
-from src.schemas.enums import PaymentMethod
+from schemas.enums import PaymentMethod
 from typing import TYPE_CHECKING
 from sqlalchemy import Enum
-from src.core import Base
+from core import Base
 
 if TYPE_CHECKING:
-    from src.core import Order
+    from core import Order
 
 
 class Payment(Base):

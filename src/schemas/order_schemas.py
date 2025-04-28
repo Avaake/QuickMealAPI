@@ -1,7 +1,7 @@
 from schemas.enums import PaymentMethod, OrderStatus
-from src.schemas.base_schema import BaseSchema
+from schemas.base_schema import BaseSchema
 
-from src.core import Payment, OrderItem
+from core import Payment, OrderItem
 
 
 class CreateOrderSchema(BaseSchema):

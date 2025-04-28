@@ -1,11 +1,11 @@
-from src.repositories.sqlalchemy_repository import SQLAlchemyRepository
-from src.schemas.cart_schemas import CreateCartSchema
+from repositories.sqlalchemy_repository import SQLAlchemyRepository
+from schemas.cart_schemas import CreateCartSchema
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from sqlalchemy import select, func
-from src.core import CartItem
+from core import CartItem
 from typing import Sequence
-from src.core import Dish
+from core import Dish
 
 
 class CartRepository(SQLAlchemyRepository[CartItem]):

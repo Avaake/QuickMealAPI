@@ -1,12 +1,12 @@
-from src.services.dish_service import DishService
-from src.repositories.cart_repository import CartRepository
-from src.services.base_service import AbstractService
+from services.dish_service import DishService
+from repositories.cart_repository import CartRepository
+from services.base_service import AbstractService
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.schemas.cart_schemas import (
+from schemas.cart_schemas import (
     BaseCartSchema,
     ReadCartDishSchema,
 )
-from src.core import db_helper
+from core import db_helper
 from typing import Annotated
 from fastapi import Depends
 

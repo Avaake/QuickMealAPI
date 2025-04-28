@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import BaseModel
 from typing import ClassVar
@@ -5,6 +6,7 @@ from pathlib import Path
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")
 
 
 class APIPrefix(BaseModel):
