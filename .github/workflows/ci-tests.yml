@@ -20,6 +20,11 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y docker-compose
 
+
+    - name: Build and start Docker Compose services
+      run: |
+        docker-compose -f docker-compose.test.yml --env-file src/.test.env up --build -d
+
     - name: Check container status
       run: docker ps
 
