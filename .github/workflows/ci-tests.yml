@@ -9,67 +9,11 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      postgres:
-        image: postgres:16
+      docker:
+        image: docker:19.03.12
+        options: --privileged
         ports:
-          - 5432:5432
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: test_db
-        options: >-
-          --health-cmd="pg_isready -U postgres" 
-          --health-interval=5s
-          --health-timeout=2s
-          --health-retries=5
-
-    steps:
-      # Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      # Set up Python and install dependencies
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install poetry
-          poetry install --no-interaction
-
-      # Build FastAPI Docker image
-      - name: Build Docker image
-        run: |
-          docker build -t fastapi_test_app -f Dockerfile .
-
-      # Start FastAPI container
-      - name: Start FastAPI container
-        run: |
-          docker run -d \
-            --name fastapi_test_app \
-            --network host \
-            -p 8000:8000 \
-            fastapi_test_app
-
-      # Check if the container is running
-      - name: Check container status
-        run: docker ps -a
-
-      # Wait until FastAPI is ready
-      - name: Wait for FastAPI to be ready
-        run: |
-          until curl --silent --fail http://localhost:8000; do
-            echo "Waiting for FastAPI to be ready..."
-            sleep 5
-          done
-
-      # Run tests in the container
-      - name: Run tests
-        run: docker exec fastapi_test_app pytest -s -vv
-
-      # Check FastAPI logs if there is an issue
-      - name: Check FastAPI logs
-        run: docker logs fastapi_test_app
+          - 80:80
+          - 443:443
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
