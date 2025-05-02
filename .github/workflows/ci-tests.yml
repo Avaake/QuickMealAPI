@@ -1,0 +1,32 @@
+name: CI - Test
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker & Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io docker-compose
+
+      - name: Start service
+        run: |
+          docker-compose -f docker-compose.test.yml --env-file src/.test.env up --build -d --remove-orphans
+          sleep 10
+
+      - name: Run test
+        run: |
+          docker-compose -f docker-compose.test.yml --env-file src/.test.env exec -T fastapi_test_app pytest -s -vvv
+
+      - name: Stop service
+        if: always()
+        run: |
+          docker-compose -f docker-compose.test.yml down
