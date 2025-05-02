@@ -47,9 +47,8 @@ jobs:
             -p 8000:8000 \
             fastapi_test_app \
 
-      - name: Wait for FastAPI to be ready
-        run: |
-          until curl --silent --fail http://localhost:8000; do
-            echo "Waiting for FastAPI to be ready..."
-            sleep 5
-          done
+      - name: Logs fastapi_test_app
+        run: docker logs fastapi_test_app
+
+      - name: Check if FastAPI app is running inside container
+        run: docker exec fastapi_test_app curl --fail http://localhost:8000
