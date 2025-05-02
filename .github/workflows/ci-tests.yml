@@ -24,12 +24,12 @@ jobs:
         sudo apt-get install -y docker-compose
 
 
-#    - name: Build and start Docker Compose services
-#      run: |
-#        docker-compose -f docker-compose.test.yml --env-file src/.test.env up --build -d
+    - name: Build and start Docker Compose services
+      run: |
+        docker-compose -f docker-compose.test.yml --env-file src/.test.env up --build -d
 
-    - name: Run PostgreSQL container
-      run: docker-compose -f docker-compose.test.yml --env-file src/.test.env up -d postgres_db_test
+#    - name: Run PostgreSQL container
+#      run: docker-compose -f docker-compose.test.yml --env-file src/.test.env up -d postgres_db_test
 #      run: |
 #        docker run -d \
 #        --name postgres_db_test \
@@ -42,8 +42,11 @@ jobs:
     - name: Check container status
       run: docker ps
 
-    - name: logs container status
+    - name: logs quick_meat_db_test container status
       run: docker logs quick_meat_db_test
+
+    - name: logs fastapi_test_app container status
+      run: docker logs fastapi_test_app
 
 #    - name: Run bash in container
 #      run: |
