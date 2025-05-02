@@ -14,3 +14,23 @@ jobs:
 
       - name: Create Docker test network
         run: docker network create test_network
+
+      - name: Start Postgres container
+        run: |
+          docker run -d \
+          --name postgres_db_test \
+          --network test_network \
+          -e POSTGRES_USER=admin_test \
+          -e POSTGRES_PASSWORD=admin_password_test \
+          -e POSTGRES_DB=quick_meat_db_test \
+          -p 5432:5432 \
+          postgres:16
+
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 2
+          done
+        env:
+          PGPASSWORD: admin_password_test
