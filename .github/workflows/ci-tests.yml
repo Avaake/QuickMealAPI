@@ -2,48 +2,53 @@ name: CI - Test
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main"]  # Запуск тестів при пуші в гілку main
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Використовуємо останню версію Ubuntu для тестування
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3  # Крок для клонування репозиторію
 
-      - name: Set up Docker & Docker Compose
-        run: |
-          # Оновлення репозиторіїв та системи
-          sudo apt-get update
-          sudo apt-get upgrade -y
-
-          # Видалення старих версій Docker, якщо вони є
-          sudo apt-get remove -y docker docker-engine docker.io containerd runc
-
-          # Встановлення необхідних інструментів для Docker
-          sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-
-          # Додавання офіційного репозиторію Docker
-          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-          sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-
-          # Оновлення репозиторіїв
-          sudo apt-get update
-
-          # Встановлення Docker та Docker Compose
-          sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-          sudo apt-get install -y docker-compose
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2  # Використовуємо GitHub action для налаштування Docker Buildx
+        # Це дозволяє уникнути ручного налаштування Docker
 
       - name: Start service
         run: |
+          # Запускаємо сервіси за допомогою Docker Compose, передаючи необхідні змінні середовища з файлу .test.env
           docker-compose -f docker-compose.test.yml --env-file src/.test.env up --build -d --remove-orphans
+          
+          # Додаємо затримку в 10 секунд для того, щоб сервіси встигли запуститись
           sleep 10
+
+      - name: Wait for FastAPI to be ready
+        run: |
+          # Перевірка, чи доступний FastAPI, перед запуском тестів
+          until curl --silent --fail fastapi_test_app:8000; do
+            echo "Waiting for FastAPI to be ready..."
+            sleep 5  # Затримка в 5 секунд перед наступною спробою
+          done
+
+      - name: Check PYTHONPATH
+        run: |
+          # Перевірка, чи правильно налаштовано PYTHONPATH в контейнері
+          docker-compose -f docker-compose.test.yml --env-file src/.test.env exec -T fastapi_test_app sh -c "echo $PYTHONPATH"
 
       - name: Run test
         run: |
+          # Запуск тестів з налаштованим PYTHONPATH
           docker-compose -f docker-compose.test.yml --env-file src/.test.env exec -T fastapi_test_app sh -c "PYTHONPATH=/app/src pytest -s -vvv"
-      - name: Stop service
-        if: always()
+
+      - name: Get Docker logs
         run: |
+          # Виведення логів Docker для допомоги в налагодженні
+          docker-compose -f docker-compose.test.yml --env-file src/.test.env logs
+
+      - name: Stop service
+        if: always()  # Цей крок виконується завжди, навіть якщо тест не пройшов
+        run: |
+          # Зупинка та видалення контейнерів після виконання тестів
           docker-compose -f docker-compose.test.yml down
