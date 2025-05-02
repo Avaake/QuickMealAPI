@@ -50,5 +50,5 @@ jobs:
       - name: Check container status
         run: docker ps -a
 
-      - name: Show logs from FastAPI
-        run: docker logs fastapi_test_app
+      - name: Test connection to FastAPI
+        run: docker exec fastapi_test_app curl --silent --fail http://localhost:8000 || echo "FastAPI is not available"
