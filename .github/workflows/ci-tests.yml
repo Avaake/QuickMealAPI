@@ -38,3 +38,19 @@ jobs:
       - name: Build FastAPI container
         run: |
           docker build -t fastapi_test_app .
+
+      - name: Start FastAPI container
+        run: |
+          docker run -d \
+            --name fastapi_test_app \
+            --network test_network \
+            -p 8000:8000 \
+            fastapi_test_app \
+            uvicorn main:app --host 0.0.0.0 --port 8000
+
+      - name: Wait for FastAPI to be ready
+        run: |
+          until curl --silent --fail http://localhost:8000; do
+            echo "Waiting for FastAPI to be ready..."
+            sleep 5
+          done
