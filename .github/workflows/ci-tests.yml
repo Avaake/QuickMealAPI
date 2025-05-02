@@ -23,32 +23,12 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y docker-compose
 
-
     - name: Build and start Docker Compose services
       run: |
         docker-compose -f docker-compose.test.yml --env-file src/.test.env up --build -d
 
-#    - name: Run PostgreSQL container
-#      run: docker-compose -f docker-compose.test.yml --env-file src/.test.env up -d postgres_db_test
-#      run: |
-#        docker run -d \
-#        --name postgres_db_test \
-#        -e POSTGRES_USER=admin_test \
-#        -e POSTGRES_PASSWORD=admin_password_test \
-#        -e POSTGRES_DB=quick_meat_db_test \
-#        -p 5432:5432 \
-#        postgres:16
-
     - name: Check container status
       run: docker ps
-
-    - name: logs quick_meat_db_test container status
-      run: docker logs quick_meat_db_test
-
-#    - name: Run bash in container
-#      run: |
-#        docker exec fastapi_test_app /bin/bash -c "ls"
-
 
     - name: Wait for PostgreSQL to be ready
       run: |
@@ -70,11 +50,11 @@ jobs:
           sleep 2
         done
 
-#    - name: Run tests
-#      run: |
-#        docker-compose -f docker-compose.test.yml --env-file src/.test.env exec fastapi_test_app pytest -s -vvv
-#
-#    - name: Tear down Docker Compose services
-#      if: always()
-#      run: |
-#        docker-compose -f docker-compose.test.yml --env-file src/.test.env down
+    - name: Run tests
+      run: |
+        docker-compose -f docker-compose.test.yml exec fastapi_test_app pytest -s -vvv
+
+    - name: Tear down Docker Compose services
+      if: always()
+      run: |
+        docker-compose -f docker-compose.test.yml --env-file src/.test.env down
