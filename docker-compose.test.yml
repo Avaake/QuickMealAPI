@@ -14,8 +14,8 @@ services:
   postgres_db_test:
     image: postgres:16
     container_name: quick_meat_db_test
-    env_file:
-      - src/.test.env
+#    env_file:
+#      - src/.test.env
     environment:
       POSTGRES_USER: "${APP_CONFIG__DB__POSTGRES_USER}"
       POSTGRES_PASSWORD: "${APP_CONFIG__DB__POSTGRES_PASSWORD}"
