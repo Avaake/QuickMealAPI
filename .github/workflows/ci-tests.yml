@@ -37,4 +37,4 @@ jobs:
 
       - name: Build FastAPI container
         run: |
-          docker build -t fastapi_test_app -f .
+          docker build -t fastapi_test_app .
