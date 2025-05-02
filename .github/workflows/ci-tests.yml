@@ -30,7 +30,7 @@ jobs:
 
     - name: Wait for PostgreSQL to be ready
       run: |
-        until docker exec fastapi_test_app pg_isready -h postgres_db_test -U "${{ secrets.POSTGRES_USER }}"; do
+        until docker exec fastapi_test_app pg_isready -h postgres_db_test -U admin_test; do
           echo "Waiting for postgres to be ready..."
           sleep 5
         done
