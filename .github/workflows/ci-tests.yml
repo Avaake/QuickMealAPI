@@ -60,6 +60,13 @@ jobs:
           sleep 5
         done
 
+    - name: Check FastAPI is running
+      run: |
+        until curl -s http://localhost:8000/docs; do
+          echo "Waiting for FastAPI to be ready..."
+          sleep 2
+        done
+
 #    - name: Run tests
 #      run: |
 #        docker-compose -f docker-compose.test.yml --env-file src/.test.env exec fastapi_test_app pytest -s -vvv
