@@ -19,6 +19,6 @@ services:
     environment:
       POSTGRES_USER: admin_test
       POSTGRES_PASSWORD: admin_password_test
-      POSTGRES_DB: postgres_db_test
+      POSTGRES_DB: quick_meat_db_test
     ports:
       - "5432:5432"
