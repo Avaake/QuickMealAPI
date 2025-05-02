@@ -12,6 +12,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3  # Крок для клонування репозиторію
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Start service
         run: |
           # Запускаємо сервіси за допомогою Docker Compose, передаючи необхідні змінні середовища з файлу .test.env
