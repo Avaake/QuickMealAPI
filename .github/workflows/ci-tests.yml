@@ -46,9 +46,10 @@ jobs:
             --network test_network \
             -p 8000:8000 \
             fastapi_test_app \
+            uvicorn main:app --host 0.0.0.0 --port 8000
 
       - name: Check container status
         run: docker ps -a
 
-      - name: Test connection to FastAPI
-        run: docker exec fastapi_test_app curl --silent --fail http://localhost:8000 || echo "FastAPI is not available"
+      - name: Run tests in FastAPI container
+        run: docker exec fastapi_test_app pytest -s -vv
