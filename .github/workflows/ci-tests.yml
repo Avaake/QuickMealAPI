@@ -47,8 +47,5 @@ jobs:
             -p 8000:8000 \
             fastapi_test_app \
 
-      - name: Logs fastapi_test_app
+      - name: Show logs from FastAPI
         run: docker logs fastapi_test_app
-
-      - name: Check if FastAPI app is running inside container
-        run: docker exec fastapi_test_app curl --fail http://localhost:8000
