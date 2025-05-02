@@ -47,5 +47,8 @@ jobs:
             -p 8000:8000 \
             fastapi_test_app \
 
+      - name: Check container status
+        run: docker ps -a
+
       - name: Show logs from FastAPI
         run: docker logs fastapi_test_app
