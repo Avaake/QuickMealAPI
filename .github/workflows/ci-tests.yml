@@ -20,16 +20,19 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y docker-compose
 
-
-    - name: Build and start Docker Compose services
-      run: |
-        docker-compose -f docker-compose.test.yml --env-file src/.test.env up --build -d
-
-    - name: Check container
+    - name: Check container status
       run: docker ps
 
-    - name: Run test
-      run: docker-compose -f docker-compose.test.yml --env-file src/.test.env exec fastapi_test_app pytest -s -vvv
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        until docker exec fastapi_test_app pg_isready -h postgres_db_test -U "${{ secrets.POSTGRES_USER }}"; do
+          echo "Waiting for postgres to be ready..."
+          sleep 5
+        done
+
+    - name: Run tests
+      run: |
+        docker-compose -f docker-compose.test.yml --env-file src/.test.env exec fastapi_test_app pytest -s -vvv
 
     - name: Tear down Docker Compose services
       if: always()
