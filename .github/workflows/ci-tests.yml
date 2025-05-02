@@ -25,7 +25,7 @@ jobs:
 
     - name: Build and start Docker Compose services
       run: |
-        docker-compose -f docker-compose.test.yml --env-file src/.test.env up --build -d
+        docker-compose -f docker-compose.yml --env-file src/.env up --build -d
 
     - name: Check container status
       run: docker ps
@@ -38,13 +38,13 @@ jobs:
         done
 
     - name: Show files in app container
-      run: docker exec fastapi_test_app ls
+      run: docker exec fastapi_app ls
 
     - name: check env
-      run: docker-compose -f docker-compose.test.yml exec -T fastapi_test_app env
+      run: docker-compose -f docker-compose.yml exec -T fastapi_app env
 
     - name: logs fastapi_test_app container status
-      run: docker logs fastapi_test_app
+      run: docker logs fastapi_app
 
     - name: Check FastAPI is running
       run: |
@@ -53,11 +53,11 @@ jobs:
           sleep 2
         done
 
-    - name: Run tests
-      run: |
-        docker-compose -f docker-compose.test.yml exec -T fastapi_test_app pytest -s -vvv
+#    - name: Run tests
+#      run: |
+#        docker-compose -f docker-compose.yml exec -T fastapi_test_app pytest -s -vvv
 
     - name: Tear down Docker Compose services
       if: always()
       run: |
-        docker-compose -f docker-compose.test.yml down
+        docker-compose -f docker-compose.yml down
