@@ -12,10 +12,5 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3  # Крок для клонування репозиторію
 
-      - name: Set up Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io
-          
-          # Створюємо мережу для контейнерів
-          docker network create test_network
+      - name: Create Docker test network
+        run: docker network create test_network
