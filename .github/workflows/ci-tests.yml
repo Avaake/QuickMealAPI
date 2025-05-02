@@ -25,7 +25,7 @@ jobs:
 
     - name: Build and start Docker Compose services
       run: |
-        docker-compose -f docker-compose.yml --env-file src/.test.env up --build -d
+        docker-compose -f docker-compose.yml up --build -d
 
     - name: Check container status
       run: docker ps
