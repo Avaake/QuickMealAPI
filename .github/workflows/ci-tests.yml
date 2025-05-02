@@ -29,7 +29,7 @@ jobs:
       run: docker ps
 
     - name: Run test
-      run: docker-compose -f docker-compose.test.yml --env-file src/.test.env exec -it quickmealapi_fastapi_test_app bash -c "pytest -s -vvv"
+      run: docker-compose -f docker-compose.test.yml --env-file src/.test.env exec fastapi_test_app pytest -s -vvv
 
     - name: Tear down Docker Compose services
       if: always()
