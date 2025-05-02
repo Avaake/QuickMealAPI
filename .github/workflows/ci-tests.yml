@@ -26,7 +26,7 @@ jobs:
 
     - name: Build and start Docker Compose services
       run: |
-        docker-compose -f docker-compose.test.yml up --build -d
+        docker-compose -f docker-compose.test.yml --env-file src/.test.env up --build -d
 
 #    - name: Run PostgreSQL container
 #      run: docker-compose -f docker-compose.test.yml --env-file src/.test.env up -d postgres_db_test

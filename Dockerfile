@@ -8,4 +8,6 @@ COPY pyproject.toml poetry.lock ./
 
 RUN poetry config virtualenvs.create false && poetry install --no-interaction
 
+COPY src/.test.env /app/.test.env
+COPY src/.env /app/.env
 COPY src  .
