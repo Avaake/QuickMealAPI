@@ -34,3 +34,7 @@ jobs:
           done
         env:
           PGPASSWORD: admin_password_test
+
+      - name: Build FastAPI container
+        run: |
+          docker build -t fastapi_test_app -f .
