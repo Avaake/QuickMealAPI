@@ -39,6 +39,9 @@ jobs:
     - name: Check container status
       run: docker ps
 
+    - name: logs container status
+      run: docker logs quick_meat_db_test
+
 #    - name: Run bash in container
 #      run: |
 #        docker exec fastapi_test_app /bin/bash -c "ls"

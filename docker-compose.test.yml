@@ -17,8 +17,8 @@ services:
     env_file:
       - src/.test.env
     environment:
-      POSTGRES_USER: admin_test
-      POSTGRES_PASSWORD: admin_password_test
-      POSTGRES_DB: quick_meat_db_test
+      POSTGRES_USER: "${APP_CONFIG__DB__POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${APP_CONFIG__DB__POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${APP_CONFIG__DB__POSTGRES_DB}"
     ports:
       - "5432:5432"
