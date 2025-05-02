@@ -13,43 +13,9 @@ jobs:
         uses: actions/checkout@v3  # Крок для клонування репозиторію
 
       - name: Set up Docker
-        uses: docker/setup-buildx-action@v2  # Використовуємо GitHub action для налаштування Docker Buildx
-
-      - name: Install Docker Compose
         run: |
-          # Завантажуємо та встановлюємо Docker Compose
-          sudo curl -L "https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          docker-compose --version  # Перевірка версії Docker Compose для переконання в успішній установці
-
-      - name: Start service
-        run: |
-          # Запускаємо сервіси за допомогою Docker Compose, передаючи необхідні змінні середовища з файлу .test.env
-          docker-compose -f docker-compose.test.yml --env-file src/.test.env up --build -d --remove-orphans
+          sudo apt-get update
+          sudo apt-get install -y docker.io
           
-          # Додаємо затримку в 10 секунд для того, щоб сервіси встигли запуститись
-          sleep 10
-
-      - name: Wait for FastAPI to be ready
-        run: |
-          # Перевірка, чи доступний FastAPI, перед запуском тестів
-          until curl --silent --fail fastapi_test_app:8000; do
-            echo "Waiting for FastAPI to be ready..."
-            sleep 5  # Затримка в 5 секунд перед наступною спробою
-          done
-
-      - name: Run test
-        run: |
-          # Запуск тестів з налаштованим PYTHONPATH
-          docker-compose -f docker-compose.test.yml --env-file src/.test.env exec -T fastapi_test_app sh -c "PYTHONPATH=/app/src pytest -s -vvv"
-
-      - name: Get Docker logs
-        run: |
-          # Виведення логів Docker для допомоги в налагодженні
-          docker-compose -f docker-compose.test.yml --env-file src/.test.env logs
-
-      - name: Stop service
-        if: always()  # Цей крок виконується завжди, навіть якщо тест не пройшов
-        run: |
-          # Зупинка та видалення контейнерів після виконання тестів
-          docker-compose -f docker-compose.test.yml down
+          # Створюємо мережу для контейнерів
+          docker network create test_network
