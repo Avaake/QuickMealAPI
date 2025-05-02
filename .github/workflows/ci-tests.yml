@@ -17,13 +17,13 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y docker-compose
 
-    - name: Build and start Docker Compose services
+    - name: Start service
       run: |
         docker-compose -f docker-compose.test.yml --env-file src/.test.env up --build -d
 
-    - name: Wait for PostgreSQL to be ready
+    - name: Check PostgreSQL readiness
       run: |
-        for i in {1..10}; do
+        for i in {1..5}; do
           if docker exec quick_meat_db_test pg_isready -U admin_test; then
             echo "Postgres is ready"
             break
@@ -32,27 +32,22 @@ jobs:
           sleep 3
         done
 
-    - name: Show files in app container
-      run: docker exec fastapi_test_app ls
-
-    - name: check env
-      run: docker-compose -f docker-compose.test.yml exec -T fastapi_test_app env
-
-    - name: logs fastapi_test_app container status
-      run: docker logs fastapi_test_app
-
     - name: Check FastAPI is running
       run: |
-        until curl -s http://localhost:8000; do
-          echo "Waiting for FastAPI to be ready..."
-          sleep 2
+        for i in {1..5}; do
+          if curl -s http://localhost:8000; then
+            echo "FastAPI is ready"
+            break
+          fi
+          echo "Waiting for FastAPI..."
+          sleep 3
         done
 
     - name: Run tests
       run: |
         docker-compose -f docker-compose.test.yml exec -T fastapi_test_app pytest -s -vvv
 
-    - name: Tear down Docker Compose services
+    - name: Stop service
       if: always()
       run: |
         docker-compose -f docker-compose.test.yml down
