@@ -40,6 +40,9 @@ jobs:
     - name: Show files in app container
       run: docker exec fastapi_test_app ls
 
+    - name: check env
+      run: docker-compose -f docker-compose.test.yml exec -T fastapi_test_app env
+
     - name: logs fastapi_test_app container status
       run: docker logs fastapi_test_app
 
