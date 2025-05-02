@@ -42,8 +42,7 @@ jobs:
 
       - name: Run test
         run: |
-          docker-compose -f docker-compose.test.yml --env-file src/.test.env exec -T fastapi_test_app pytest -s -vvv
-
+          docker-compose -f docker-compose.test.yml --env-file src/.test.env exec -T fastapi_test_app sh -c "PYTHONPATH=/app/src pytest -s -vvv"
       - name: Stop service
         if: always()
         run: |
