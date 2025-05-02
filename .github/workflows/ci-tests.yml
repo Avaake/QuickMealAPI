@@ -26,9 +26,9 @@ jobs:
         docker-compose -f docker-compose.test.yml --env-file src/.test.env up --build -d
 
     - name: Check container
-      run: docker ls
+      run: docker ps
 
     - name: Tear down Docker Compose services
       if: always()
       run: |
-        docker-compose -f docker-compose.test.yml --env-file src/.test.env
+        docker-compose -f docker-compose.test.yml --env-file src/.test.env down
