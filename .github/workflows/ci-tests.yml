@@ -6,49 +6,70 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # Використовуємо останню версію Ubuntu для тестування
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd="pg_isready -U postgres" 
+          --health-interval=5s
+          --health-timeout=2s
+          --health-retries=5
 
     steps:
+      # Checkout the code
       - name: Checkout code
-        uses: actions/checkout@v3  # Крок для клонування репозиторію
+        uses: actions/checkout@v2
 
-      - name: Create Docker test network
-        run: docker network create test_network
+      # Set up Python and install dependencies
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
 
-      - name: Start Postgres container
+      - name: Install dependencies
         run: |
-          docker run -d \
-          --name postgres_db_test \
-          --network test_network \
-          -e POSTGRES_USER=admin_test \
-          -e POSTGRES_PASSWORD=admin_password_test \
-          -e POSTGRES_DB=quick_meat_db_test \
-          -p 5432:5432 \
-          postgres:16
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install --no-interaction
 
-      - name: Wait for PostgreSQL to be ready
+      # Build FastAPI Docker image
+      - name: Build Docker image
         run: |
-          until pg_isready -h localhost -p 5432 -U postgres; do
-            echo "Waiting for PostgreSQL to be ready..."
-            sleep 2
-          done
-        env:
-          PGPASSWORD: admin_password_test
+          docker build -t fastapi_test_app -f Dockerfile .
 
-      - name: Build FastAPI container
-        run: |
-          docker build -t fastapi_test_app .
-
+      # Start FastAPI container
       - name: Start FastAPI container
         run: |
           docker run -d \
             --name fastapi_test_app \
-            --network test_network \
+            --network host \
             -p 8000:8000 \
-            fastapi_test_app \
+            fastapi_test_app
 
+      # Check if the container is running
       - name: Check container status
         run: docker ps -a
 
-      - name: Run tests in FastAPI container
+      # Wait until FastAPI is ready
+      - name: Wait for FastAPI to be ready
+        run: |
+          until curl --silent --fail http://localhost:8000; do
+            echo "Waiting for FastAPI to be ready..."
+            sleep 5
+          done
+
+      # Run tests in the container
+      - name: Run tests
         run: docker exec fastapi_test_app pytest -s -vv
+
+      # Check FastAPI logs if there is an issue
+      - name: Check FastAPI logs
+        run: docker logs fastapi_test_app
