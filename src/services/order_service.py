@@ -1,16 +1,17 @@
-from src.repositories.payment_repository import PaymentRepository
-from src.repositories.order_repository import OrderRepository
-from src.repositories.cart_repository import CartRepository
-from src.services.base_service import AbstractService
+from repositories.payment_repository import PaymentRepository
+from repositories.order_repository import OrderRepository
+from repositories.cart_repository import CartRepository
+from services.base_service import AbstractService
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.exceptions import NotFoundError
-from src.core import db_helper
+from exceptions import NotFoundError
+from core import db_helper
 from typing import Annotated
 from fastapi import Depends
-from src.schemas.order_schemas import (
+from schemas.order_schemas import (
     CreateOrderSchema,
     PaymentMethod,
     AddCreatedOrderSchema,
+    UpdateOrderSchema,
 )
 
 
@@ -44,7 +45,7 @@ class OrderService(AbstractService):
         payment = self._payment_repository.create_instance(
             payment_method=data.payment_method,
             total_price=total_price,
-            paid=(data.payment_method != PaymentMethod.cash),
+            paid=False,
         )
 
         # 4. Створити замовлення
@@ -55,8 +56,9 @@ class OrderService(AbstractService):
         # 5. Очистити кошик
         await self._cart_repository.delete(user_id=user_id)
 
-    async def update(self, **kwargs):
-        pass
+    async def update(self, order_data: UpdateOrderSchema, order_id: int):
+        await self.get(order_id=order_id)
+        return await self._order_repository.update(data=order_data, order_id=order_id)
 
     async def delete(self, **kwargs):
         pass

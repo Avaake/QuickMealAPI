@@ -2,9 +2,9 @@ from typing import Union
 
 from sqlalchemy import select
 
-from src.repositories.sqlalchemy_repository import SQLAlchemyRepository, ModelType
+from repositories.sqlalchemy_repository import SQLAlchemyRepository, ModelType
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.core import Order, OrderItem
+from core import Order, OrderItem
 from sqlalchemy.orm import selectinload
 
 
