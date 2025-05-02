@@ -45,16 +45,16 @@ jobs:
 
     - name: Check FastAPI is running
       run: |
-        until curl -s http://localhost:8000/docs; do
+        until curl -s http://localhost:8000; do
           echo "Waiting for FastAPI to be ready..."
           sleep 2
         done
 
     - name: Run tests
       run: |
-        docker-compose -f docker-compose.test.yml exec fastapi_test_app pytest -s -vvv
+        docker-compose -f docker-compose.test.yml exec -T fastapi_test_app pytest -s -vvv
 
     - name: Tear down Docker Compose services
       if: always()
       run: |
-        docker-compose -f docker-compose.test.yml --env-file src/.test.env down
+        docker-compose -f docker-compose.test.yml down
