@@ -45,9 +45,6 @@ jobs:
     - name: logs quick_meat_db_test container status
       run: docker logs quick_meat_db_test
 
-    - name: logs fastapi_test_app container status
-      run: docker logs fastapi_test_app
-
 #    - name: Run bash in container
 #      run: |
 #        docker exec fastapi_test_app /bin/bash -c "ls"
@@ -59,6 +56,12 @@ jobs:
           echo "Waiting for postgres to be ready..."
           sleep 5
         done
+
+    - name: Show files in app container
+      run: docker exec fastapi_test_app ls -la /
+
+    - name: logs fastapi_test_app container status
+      run: docker logs fastapi_test_app
 
     - name: Check FastAPI is running
       run: |
