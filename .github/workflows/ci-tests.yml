@@ -12,8 +12,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3  # Крок для клонування репозиторію
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2  # Використовуємо GitHub action для налаштування Docker Buildx
+
+      - name: Install Docker Compose
+        run: |
+          # Завантажуємо та встановлюємо Docker Compose
+          sudo curl -L "https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version  # Перевірка версії Docker Compose для переконання в успішній установці
 
       - name: Start service
         run: |
@@ -30,11 +37,6 @@ jobs:
             echo "Waiting for FastAPI to be ready..."
             sleep 5  # Затримка в 5 секунд перед наступною спробою
           done
-
-      - name: Check PYTHONPATH
-        run: |
-          # Перевірка, чи правильно налаштовано PYTHONPATH в контейнері
-          docker-compose -f docker-compose.test.yml --env-file src/.test.env exec -T fastapi_test_app sh -c "echo $PYTHONPATH"
 
       - name: Run test
         run: |
