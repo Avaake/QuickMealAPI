@@ -32,12 +32,12 @@ jobs:
       run: |
         docker exec fastapi_test_app /bin/bash -c "ls"      
 
-      #    - name: Wait for PostgreSQL to be ready
-#      run: |
-#        until docker exec postgres_db_test pg_isready -U admin_test; do
-#          echo "Waiting for postgres to be ready..."
-#          sleep 5
-#        done
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        until docker exec postgres_db_test pg_isready -U postgres; do
+          echo "Waiting for postgres to be ready..."
+          sleep 5
+        done
 
     - name: Run tests
       run: |
