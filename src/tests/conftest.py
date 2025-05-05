@@ -1,4 +1,4 @@
-from main import app
+from create_app import create_app
 import pytest_asyncio
 from tests.utils import (
     async_session_maker,
@@ -10,6 +10,7 @@ from tests.utils import (
 )
 from core import settings
 
+app = create_app()
 
 @pytest_asyncio.fixture(scope="module", autouse=True)
 async def engine():
