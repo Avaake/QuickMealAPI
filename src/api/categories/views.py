@@ -1,4 +1,3 @@
-from api.decorators import handle_error_decorator
 from api.users.auth_dependencies import check_user_is_admin
 from services.category_service import CategoryService
 from fastapi import APIRouter, Depends, Path
@@ -23,7 +22,6 @@ router = APIRouter(
     summary="Create a new category",
     response_model_exclude_none=True,
 )
-@handle_error_decorator
 async def create_category(
     category_data: CategoryBaseSchema,
     current_user: Annotated[User, Depends(check_user_is_admin)],
@@ -39,7 +37,6 @@ async def create_category(
     status_code=200,
     summary="Get all categories",
 )
-@handle_error_decorator
 async def get_all_categories(
     category_service: Annotated["CategoryService", Depends(CategoryService)],
 ) -> Sequence[ReadCategorySchema]:
@@ -48,7 +45,6 @@ async def get_all_categories(
 
 
 @router.get("/{category_id}", summary="Get category")
-@handle_error_decorator
 async def get_category(
     category_id: Annotated[int, Path(ge=1)],
     category_service: Annotated["CategoryService", Depends(CategoryService)],
@@ -58,7 +54,6 @@ async def get_category(
 
 
 @router.patch("/{category_id}", summary="Update category")
-@handle_error_decorator
 async def update_category(
     category_id: Annotated[int, Path(ge=1)],
     category_data: UpdateCategorySchema,
@@ -72,7 +67,6 @@ async def update_category(
 
 
 @router.delete("/{category_id}", summary="Delete category", status_code=204)
-@handle_error_decorator
 async def delete_category(
     category_id: Annotated[int, Path(ge=1)],
     current_user: Annotated[User, Depends(check_user_is_admin)],

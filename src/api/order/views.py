@@ -3,7 +3,6 @@ from api.users.auth_dependencies import (
     check_user_is_courier_or_is_admin,
     check_user_is_active,
 )
-from api.decorators import handle_error_decorator
 from services.order_service import OrderService
 from fastapi import APIRouter, Depends, Path
 from core import settings, User
@@ -14,7 +13,6 @@ router = APIRouter(prefix=settings.api_prefix.orders, tags=["Order"])
 
 
 @router.post("", status_code=201)
-@handle_error_decorator
 async def create_order(
     order_data: CreateOrderSchema,
     current_user: Annotated[User, Depends(check_user_is_active)],
@@ -25,7 +23,6 @@ async def create_order(
 
 
 @router.put("/{order_id}", status_code=200)
-@handle_error_decorator
 async def update_order_status(
     order_id: Annotated[int, Path(ge=1)],
     order_data: UpdateOrderSchema,

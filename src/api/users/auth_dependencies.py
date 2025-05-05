@@ -1,4 +1,3 @@
-from api.decorators import handle_error_decorator
 from schemas.user_schema import LoginSchema, UpdateUserSchema
 from fastapi import Depends, HTTPException, status, Form, Path
 from services.user_service import (
@@ -91,7 +90,6 @@ async def check_user_is_admin(
     return user
 
 
-@handle_error_decorator
 async def authenticate_user(
     user_data: Annotated[LoginSchema, Form()],
     user_service: Annotated["UserService", Depends(UserService)],

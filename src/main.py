@@ -1,3 +1,4 @@
+import uvicorn
 from starlette.middleware.cors import CORSMiddleware
 from core import settings
 from create_app import create_app
@@ -19,3 +20,7 @@ main_app.add_middleware(
 @main_app.get("/")
 async def ping():
     return {"ping": "pong"}
+
+
+if __name__ == "__main__":
+    uvicorn.run(main_app)

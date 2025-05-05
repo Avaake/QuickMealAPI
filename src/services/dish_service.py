@@ -1,5 +1,5 @@
 from repositories.sqlalchemy_repository import ModelType
-from exceptions import DishAlreadyExistsError, NotFoundError
+from exceptions import AlreadyExistsError, NotFoundError
 from repositories.dish_repository import DishRepository
 from services.base_service import AbstractService
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -18,7 +18,7 @@ class DishService(AbstractService):
 
     async def add(self, dish_data: DishBaseSchema) -> Dish:
         if await self._dish_repository.find_single(name=dish_data.name):
-            raise DishAlreadyExistsError("User already exists")
+            raise AlreadyExistsError("Dish already exists")
 
         return await self._dish_repository.create(data=dish_data)
 

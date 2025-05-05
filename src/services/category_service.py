@@ -1,4 +1,4 @@
-from exceptions import CategoryAlreadyExistsError, NotFoundError
+from exceptions import AlreadyExistsError, NotFoundError
 from repositories.sqlalchemy_repository import ModelType
 from services.base_service import AbstractService
 from typing import Annotated, Sequence
@@ -17,7 +17,7 @@ class CategoryService(AbstractService):
 
     async def add(self, category_data: CategoryBaseSchema) -> Category:
         if await self._category_repository.find_single(name=category_data.name):
-            raise CategoryAlreadyExistsError("Category already exists")
+            raise AlreadyExistsError("Category already exists")
 
         category = await self._category_repository.create(data=category_data)
         return category

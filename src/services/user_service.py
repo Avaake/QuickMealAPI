@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from core import User, db_helper
 from core import settings
 from exceptions import (
-    UserAlreadyExistsError,
+    AlreadyExistsError,
     NotFoundError,
 )
 from typing import Annotated
@@ -28,7 +28,7 @@ class UserService(AbstractService):
 
     async def add(self, user_data: CreateUserSchema) -> User:
         if await self._user_repository.find_single(email=user_data.email):
-            raise UserAlreadyExistsError("User already exists")
+            raise AlreadyExistsError("User already exists")
 
         user_data.password = self.hash_password(user_data.password)
         user = await self._user_repository.create(data=user_data)

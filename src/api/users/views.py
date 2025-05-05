@@ -1,4 +1,3 @@
-from api.decorators import handle_error_decorator
 from services.user_service import UserService
 from fastapi import APIRouter, Depends, Path
 from api.users.auth_dependencies import (
@@ -26,7 +25,6 @@ router = APIRouter(
 
 
 @router.post("/register", status_code=201, summary="create new user")
-@handle_error_decorator
 async def register(
     user_data: CreateUserSchema,
     user_service: Annotated["UserService", Depends(UserService)],
@@ -36,7 +34,6 @@ async def register(
 
 
 @router.post("/login", status_code=200, summary="login user")
-@handle_error_decorator
 async def auth_user_issue_jwt(
     current_user: Annotated[User, Depends(authenticate_user)],
     user_service: Annotated["UserService", Depends(UserService)],
@@ -56,7 +53,6 @@ async def auth_user_issue_jwt(
     summary="refresh user",
     status_code=200,
 )
-@handle_error_decorator
 async def create_new_access_token(
     current_user: Annotated[
         User,
@@ -71,7 +67,6 @@ async def create_new_access_token(
 
 
 @router.get("/me", summary="get current user", status_code=200)
-@handle_error_decorator
 async def auth_user_check_self_info(
     current_user: Annotated[User, Depends(get_current_auth_user)],
 ):
@@ -79,7 +74,6 @@ async def auth_user_check_self_info(
 
 
 @router.patch("/{user_id}", summary="update user", status_code=200)
-@handle_error_decorator
 async def update_user(
     user_id: Annotated[int, Path(ge=1)],
     user_data: UpdateUserSchema,
@@ -91,7 +85,6 @@ async def update_user(
 
 
 @router.delete("/{user_id}", summary="delete user", status_code=204)
-@handle_error_decorator
 async def delete_user(
     user_id: Annotated[int, Path(ge=1)],
     current_user: Annotated[User, Depends(check_user_is_admin)],

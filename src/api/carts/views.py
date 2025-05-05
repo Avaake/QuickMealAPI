@@ -1,6 +1,5 @@
 from services.dish_service import DishService
 from api.users.auth_dependencies import check_user_is_active
-from api.decorators import handle_error_decorator
 from services.cart_service import CartService
 from fastapi import APIRouter, Depends, Path
 from typing import Sequence, Annotated
@@ -15,7 +14,6 @@ router = APIRouter(prefix=settings.api_prefix.carts, tags=["Cart / Basket"])
 
 
 @router.post("/add", status_code=200)
-@handle_error_decorator
 async def add_to_cart(
     cart_data: BaseCartSchema,
     current_user: Annotated[User, Depends(check_user_is_active)],
@@ -29,7 +27,6 @@ async def add_to_cart(
 
 
 @router.get("/total-price", status_code=200)
-@handle_error_decorator
 async def get_total_price(
     current_user: Annotated[User, Depends(check_user_is_active)],
     cart_service: Annotated["CartService", Depends(CartService)],
@@ -39,7 +36,6 @@ async def get_total_price(
 
 
 @router.get("", status_code=200)
-@handle_error_decorator
 async def get_cart(
     current_user: Annotated[User, Depends(check_user_is_active)],
     cart_service: Annotated["CartService", Depends(CartService)],
@@ -49,7 +45,6 @@ async def get_cart(
 
 
 @router.delete("/remove/{dish_id}")
-@handle_error_decorator
 async def remove_from_cart(
     dish_id: Annotated[int, Path(ge=1)],
     current_user: Annotated[User, Depends(check_user_is_active)],
@@ -60,7 +55,6 @@ async def remove_from_cart(
 
 
 @router.delete("/clear", status_code=204)
-@handle_error_decorator
 async def clear_cart(
     current_user: Annotated[User, Depends(check_user_is_active)],
     cart_service: Annotated["CartService", Depends(CartService)],

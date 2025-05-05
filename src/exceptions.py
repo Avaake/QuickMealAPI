@@ -1,23 +1,7 @@
 from fastapi import HTTPException, status
 
 
-class ServiceError(Exception):
-    pass
-
-
-class TokenIsNotValidError(Exception):
-    pass
-
-
-class UserAlreadyExistsError(Exception):
-    pass
-
-
-class CategoryAlreadyExistsError(Exception):
-    pass
-
-
-class DishAlreadyExistsError(Exception):
+class AlreadyExistsError(Exception):
     pass
 
 
