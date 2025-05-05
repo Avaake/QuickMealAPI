@@ -21,7 +21,7 @@ class TestUser:
     async def test_error_user_already_exists(self, async_client, user_data):
         response = await async_client.post("/users/register", json=user_data)
         data = response.json()
-        assert response.status_code == 400
+        assert response.status_code == 409
         assert data["detail"] == "User already exists"
 
     async def test_login(self, async_client, user_login_data):
