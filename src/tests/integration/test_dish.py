@@ -84,7 +84,7 @@ class TestDish:
         response = await async_client.get(
             "/dishes/111",
         )
-        assert response.status_code == 400
+        assert response.status_code == 404
         data = response.json()
         assert data["detail"] == "Dish not found"
 

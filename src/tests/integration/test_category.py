@@ -118,7 +118,7 @@ class TestCategory:
             headers=authorization_admin,
         )
 
-        assert response.status_code == 400
+        assert response.status_code == 404
         data = response.json()
         assert data["detail"] == "Category not found"
 
@@ -155,6 +155,6 @@ class TestCategory:
             headers=authorization_admin,
         )
 
-        assert response.status_code == 400
+        assert response.status_code == 404
         data = response.json()
         assert data["detail"] == "Category not found"
