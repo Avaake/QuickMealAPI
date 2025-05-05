@@ -12,6 +12,7 @@ from core import settings
 
 app = create_app()
 
+
 @pytest_asyncio.fixture(scope="module", autouse=True)
 async def engine():
     assert settings.mode == "TEST"

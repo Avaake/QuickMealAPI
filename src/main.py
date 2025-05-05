@@ -1,4 +1,3 @@
-import uvicorn
 from starlette.middleware.cors import CORSMiddleware
 from core import settings
 from create_app import create_app
