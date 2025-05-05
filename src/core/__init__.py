@@ -9,10 +9,12 @@ __all__ = [
     "Payment",
     "Order",
     "OrderItem",
+    "log",
 ]
 
 from .config import settings
 from .db_helper import db_helper
+from .log_config import log
 from core.models.base_model import Base
 from core.models.user import User
 from core.models.category import Category
