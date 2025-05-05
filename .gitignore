@@ -38,3 +38,5 @@ doc-dev
 .vscode/*
 info.txt
 #certs/
+logs/
+/src/logs/
