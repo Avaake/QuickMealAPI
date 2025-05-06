@@ -8,7 +8,7 @@ os.makedirs(LOG_DIR, exist_ok=True)
 
 class Logger:
     LOG_FILE = os.path.join(LOG_DIR, "app.log")
-    LOG_FORMAT = "[%(asctime)s] %(module)10s:%(lineno)-3d %(levelname)-8s - %(message)s"
+    LOG_FORMAT = "[%(asctime)s] %(name)15s:%(lineno)-3d %(levelname)-8s - %(message)s"
     DATE_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
 
     def __init__(self, name: str = "app_logger"):
@@ -42,6 +42,3 @@ class Logger:
 
     def get_logger(self):
         return self.logger
-
-
-log = Logger().get_logger()

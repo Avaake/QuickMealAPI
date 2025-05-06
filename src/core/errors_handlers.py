@@ -1,8 +1,10 @@
 from fastapi import FastAPI, Request, status
 from fastapi.responses import ORJSONResponse
 from sqlalchemy.exc import DatabaseError
-from core import log
+from core import Logger
 from exceptions import NotFoundError, AlreadyExistsError
+
+log = Logger(__name__).get_logger()
 
 
 def register_error_handlers(app: FastAPI) -> None:
