@@ -15,4 +15,4 @@ COPY src .
 
 RUN chmod +x prestart.sh
 
-ENTRYPOINT ["./prestart.sh"]
+ENTRYPOINT ["./cmd/prestart.sh"]
