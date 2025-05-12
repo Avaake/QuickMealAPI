@@ -13,6 +13,6 @@ RUN poetry config virtualenvs.create false && poetry install --no-interaction
 
 COPY src .
 
-RUN chmod +x prestart.sh
+RUN chmod +x ./cmd/prestart.sh
 
-ENTRYPOINT ["./prestart.sh"]
+ENTRYPOINT ["./cmd/prestart.sh"]
