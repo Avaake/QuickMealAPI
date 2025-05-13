@@ -26,6 +26,7 @@ class OrderRepository(SQLAlchemyRepository[Order]):
         res = await self._session.execute(
             select(self.model)
             .options(selectinload(self.model.items))
+            .options(selectinload(self.model.payment))
             .filter_by(**filters)
         )
         return res.scalar_one_or_none()

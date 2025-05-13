@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from repositories.payment_repository import PaymentRepository
 from repositories.order_repository import OrderRepository
 from repositories.cart_repository import CartRepository
@@ -10,8 +12,9 @@ from fastapi import Depends
 from schemas.order_schemas import (
     CreateOrderSchema,
     PaymentMethod,
-    AddCreatedOrderSchema,
+    AddCreatedOrderInstanceSchema,
     UpdateOrderSchema,
+    ReadOrderSchema,
 )
 
 
@@ -50,11 +53,16 @@ class OrderService(AbstractService):
 
         # 4. Створити замовлення
         await self._order_repository.create(
-            AddCreatedOrderSchema(user_id=user_id, payment=payment, items=order_items)
+            AddCreatedOrderInstanceSchema(
+                user_id=user_id, payment=payment, items=order_items
+            )
         )
 
         # 5. Очистити кошик
         await self._cart_repository.delete(user_id=user_id)
+
+        order = await self.get(user_id=user_id, payment_id=payment.id)
+        return order
 
     async def update(self, order_data: UpdateOrderSchema, order_id: int):
         await self.get(order_id=order_id)
