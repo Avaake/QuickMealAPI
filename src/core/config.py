@@ -68,6 +68,7 @@ class Settings(BaseSettings):
     midd: MiddlewareConfig
     api_prefix: APIPrefix = APIPrefix()
     mode: str
+    log_console_level: int = 10
 
 
 settings = Settings()

@@ -1,21 +1,17 @@
-from datetime import datetime
-
 from repositories.payment_repository import PaymentRepository
 from repositories.order_repository import OrderRepository
 from repositories.cart_repository import CartRepository
 from services.base_service import AbstractService
 from sqlalchemy.ext.asyncio import AsyncSession
 from exceptions import NotFoundError
-from core import db_helper
+from schemas.order_schemas import (
+    AddCreatedOrderInstanceSchema,
+    CreateOrderSchema,
+    UpdateOrderSchema,
+)
 from typing import Annotated
 from fastapi import Depends
-from schemas.order_schemas import (
-    CreateOrderSchema,
-    PaymentMethod,
-    AddCreatedOrderInstanceSchema,
-    UpdateOrderSchema,
-    ReadOrderSchema,
-)
+from core import db_helper
 
 
 class OrderService(AbstractService):
@@ -65,8 +61,8 @@ class OrderService(AbstractService):
         return order
 
     async def update(self, order_data: UpdateOrderSchema, order_id: int):
-        await self.get(order_id=order_id)
-        return await self._order_repository.update(data=order_data, order_id=order_id)
+        await self.get(id=order_id)
+        return await self._order_repository.update(data=order_data, id=order_id)
 
     async def delete(self, **kwargs):
         pass
