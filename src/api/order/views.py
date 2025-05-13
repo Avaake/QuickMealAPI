@@ -1,8 +1,3 @@
-from schemas.order_schemas import (
-    CreateOrderSchema,
-    UpdateOrderSchema,
-    ReadOrderSchema,
-)
 from api.users.auth_dependencies import (
     check_user_is_courier_or_is_admin,
     check_user_is_active,
@@ -10,6 +5,11 @@ from api.users.auth_dependencies import (
 from services.order_service import OrderService
 from fastapi import APIRouter, Depends, Path
 from core import settings, User, Logger
+from schemas.order_schemas import (
+    CreateOrderSchema,
+    UpdateOrderSchema,
+    ReadOrderSchema,
+)
 from typing import Annotated
 
 log = Logger(__name__).get_logger()
@@ -33,4 +33,5 @@ async def update_order_status(
     current_user: Annotated[User, Depends(check_user_is_courier_or_is_admin)],
     order_service: Annotated["OrderService", Depends(OrderService)],
 ):
-    order = order_service.update(order_data=order_data, order_id=order_id)
+    order = await order_service.update(order_data=order_data, order_id=order_id)
+    return ReadOrderSchema.model_validate(order).model_dump()

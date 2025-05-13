@@ -1,6 +1,7 @@
 import logging
 from logging.handlers import TimedRotatingFileHandler
 import os
+from core import settings
 
 LOG_DIR = "logs"
 os.makedirs(LOG_DIR, exist_ok=True)
@@ -37,7 +38,7 @@ class Logger:
         console_handler = logging.StreamHandler()
         formatter = logging.Formatter(self.LOG_FORMAT, datefmt=self.DATE_FORMAT)
         console_handler.setFormatter(formatter)
-        console_handler.setLevel(logging.DEBUG)
+        console_handler.setLevel(settings.log_console_level)
         return console_handler
 
     def get_logger(self):
